@@ -15,6 +15,10 @@ class UserService {
         };
         return this.proxy.post("user/login", data);
     }
+
+    register(registration) {
+        return this.proxy.post("user/register", registration);
+    }
 }
 
 export {

@@ -1,7 +1,5 @@
 ﻿﻿<template>
-    <span>
-        <font-awesome-icon :icon="icon" v-bind:class="{'action-icon': action }" :size="size" prefix="fas"></font-awesome-icon>
-    </span>
+    <font-awesome-icon :icon="['fas', icon]" v-bind:class="{'action-icon': action }" :size="size" prefix="fas"></font-awesome-icon>
 </template>
 
 <script>

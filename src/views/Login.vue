@@ -6,7 +6,7 @@
                 <div class="column is-one-third">
                     <div class="card is-horizontal">
                         <div class="card-image pt-4">
-                            <app-icon icon="user" size="10x"/>
+                            <app-icon icon="khanda" size="10x"/>
                         </div>
                         <div class="card-content">
                             <div class="field">

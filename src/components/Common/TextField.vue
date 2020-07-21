@@ -8,6 +8,7 @@
                    :placeholder="name"
                    v-model="value"
                    v-on:blur="validate"
+                   v-on:keyup.enter="$emit('enter_pressed')"
             >
             <span class="icon is-left">
                 <app-icon :icon="icon" />

@@ -9,7 +9,10 @@
                             <app-icon icon="khanda" size="10x"/>
                         </div>
                         <div class="card-content registration-form">
-
+                            <div class="notification is-danger" v-if="error">
+                                <button class="delete" @click="clearError"></button>
+                                {{ error }}
+                            </div>
                             <app-text-field name="Username"
                                             icon="user"
                                             v-model="username"
@@ -36,6 +39,7 @@
                                             icon="id-badge"
                                             v-model="name"
                                             :validator="validateNotEmpty"
+                                            @enter_pressed="register"
                             />
 
                             <div class="field is-grouped is-grouped-right">
@@ -94,7 +98,8 @@
                 password: "",
                 passwordConfirm: "",
                 email: "",
-                name: ""
+                name: "",
+                error: ""
             }
         },
         watch: {
@@ -118,7 +123,12 @@
                         alert("Woo registration was successful!");
                     },
                     error => {
-                        alert("Error registering :(");
+                        if (error.response && error.response.data.message) {
+                            this.error = error.response.data.message;
+                        }
+                        else {
+                            this.error = "Unknown error occurred! Please try again later."
+                        }
                     }
 
                 )
@@ -155,6 +165,9 @@
                     errors.push("Passwords do not match");
                 }
                 return errors;
+            },
+            clearError() {
+                this.error = "";
             }
         }
 

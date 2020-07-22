@@ -62,7 +62,9 @@
             login() {
                 userService.login(this.username, this.password).then(
                     () => {
-                        alert("Woo login was successful!");
+                        this.$router.push({
+                            name: "Home"
+                        })
                     },
                     error => {
                         alert("Error logging in :(");
@@ -75,7 +77,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 
     html {
         height: 100%;

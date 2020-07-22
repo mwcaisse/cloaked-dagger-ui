@@ -9,6 +9,10 @@
                             <app-icon icon="khanda" size="10x"/>
                         </div>
                         <div class="card-content">
+                            <div class="notification is-danger" v-if="error">
+                                <button class="delete" @click="clearError"></button>
+                                {{ error }}
+                            </div>
                             <form @submit.prevent="login">
                                 <div class="field">
                                     <div class="control has-icons-left">
@@ -62,7 +66,8 @@
         data: function() {
             return {
                 username: "",
-                password: ""
+                password: "",
+                error: ""
             }
         },
         methods: {
@@ -74,10 +79,13 @@
                         })
                     },
                     error => {
-                        alert("Error logging in :(");
+                        this.error="Invalid username/password!";
                     }
 
                 )
+            },
+            clearError() {
+                this.error = "";
             }
         }
 

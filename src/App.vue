@@ -19,6 +19,9 @@
                             name: "login"
                         });
                     }
+                    else {
+                        reject(err);
+                    }
                 });
             });
 

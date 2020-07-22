@@ -13,45 +13,46 @@
                                 <button class="delete" @click="clearError"></button>
                                 {{ error }}
                             </div>
-                            <app-text-field name="Username"
-                                            icon="user"
-                                            v-model="username"
-                                            :validator="validateNotEmpty"
-                            />
-                            <app-text-field name="Password"
-                                            icon="key" v-model="password"
-                                            type="password"
-                                            :validator="validatePassword"
-                            />
-                            <app-text-field name="Confirm Password"
-                                            icon="key"
-                                            v-model="passwordConfirm"
-                                            type="password"
-                                            :validator="validatePasswordConfirm"
-                                            ref="passwordConfirmField"
-                            />
-                            <app-text-field name="Email"
-                                            icon="envelope"
-                                            v-model="email"
-                                            :validator="validateEmail"
-                            />
-                            <app-text-field name="Name"
-                                            icon="id-badge"
-                                            v-model="name"
-                                            :validator="validateNotEmpty"
-                                            @enter_pressed="register"
-                            />
+                            <form @submit.prevent="register">
+                                <app-text-field name="Username"
+                                                icon="user"
+                                                v-model="username"
+                                                :validator="validateNotEmpty"
+                                />
+                                <app-text-field name="Password"
+                                                icon="key" v-model="password"
+                                                type="password"
+                                                :validator="validatePassword"
+                                />
+                                <app-text-field name="Confirm Password"
+                                                icon="key"
+                                                v-model="passwordConfirm"
+                                                type="password"
+                                                :validator="validatePasswordConfirm"
+                                                ref="passwordConfirmField"
+                                />
+                                <app-text-field name="Email"
+                                                icon="envelope"
+                                                v-model="email"
+                                                :validator="validateEmail"
+                                />
+                                <app-text-field name="Name"
+                                                icon="id-badge"
+                                                v-model="name"
+                                                :validator="validateNotEmpty"
+                                />
 
-                            <div class="field">
-                                <div class="control">
-                                    <button class="button is-link is-large is-fullwidth"
-                                            @click="register"
-                                            :disabled="!hasValidationIssues"
-                                    >
-                                        Register
-                                    </button>
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-link is-large is-fullwidth"
+                                                type="submit"
+                                                :disabled="!hasValidationIssues"
+                                        >
+                                            Register
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -122,7 +123,9 @@
                 }
                 userService.register(registration).then(
                     () => {
-                        alert("Woo registration was successful!");
+                        this.$router.push({
+                            name: "login"
+                        })
                     },
                     error => {
                         if (error.response && error.response.data.message) {

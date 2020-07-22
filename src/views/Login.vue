@@ -9,27 +9,29 @@
                             <app-icon icon="khanda" size="10x"/>
                         </div>
                         <div class="card-content">
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <input class="input is-large" type="text" placeholder="Username" v-model="username">
-                                    <span class="icon  is-left">
-                                        <app-icon icon="user" />
-                                    </span>
+                            <form @submit.prevent="login">
+                                <div class="field">
+                                    <div class="control has-icons-left">
+                                        <input class="input is-large" type="text" placeholder="Username" v-model="username">
+                                        <span class="icon  is-left">
+                                            <app-icon icon="user" />
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <input class="input is-large" type="password" placeholder="Password" v-model="password">
-                                    <span class="icon is-left">
-                                        <app-icon icon="key" />
-                                    </span>
+                                <div class="field">
+                                    <div class="control has-icons-left">
+                                        <input class="input is-large" type="password" placeholder="Password" v-model="password">
+                                        <span class="icon is-left">
+                                            <app-icon icon="key" />
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <button class="button is-link is-large is-fullwidth" @click="login">Login</button>
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-link is-large is-fullwidth" type="submit"">Login</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -68,7 +70,7 @@
                 userService.login(this.username, this.password).then(
                     () => {
                         this.$router.push({
-                            name: "Home"
+                            name: "home"
                         })
                     },
                     error => {

@@ -13,10 +13,8 @@
         name: "Home",
         created: function () {
             axios.interceptors.response.use(undefined, (err) => {
-                console.dir(err);
                 return new Promise((resolve, reject) => {
                     if (err.response.status === 401 && err.config.url !== "/api/user/login") {
-                        console.log("hi 2");
                         this.$router.push({
                             name: "login"
                         });

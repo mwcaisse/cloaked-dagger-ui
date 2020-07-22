@@ -49,6 +49,8 @@
     "build": "webpack",
     "test": "jest --runInBand",
     "clean": "rm -rf ./build",
-    "lint": "eslint  --ext .js,.vue src"
+    "lint": "eslint  --ext .js,.vue src",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open"
   }
 }

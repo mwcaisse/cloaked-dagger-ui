@@ -42,10 +42,7 @@
                                             @enter_pressed="register"
                             />
 
-                            <div class="field is-grouped is-grouped-right">
-                                <div class="control">
-                                    <button class="button is-light is-large is-fullwidth" @click="cancel">Cancel</button>
-                                </div>
+                            <div class="field">
                                 <div class="control">
                                     <button class="button is-link is-large is-fullwidth"
                                             @click="register"
@@ -56,6 +53,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="box notification is-link is-light">
+                        Already have an account?
+                        <router-link to="login">Login</router-link>
                     </div>
 
                 </div>

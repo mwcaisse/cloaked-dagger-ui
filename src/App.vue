@@ -18,7 +18,7 @@
                     if (err.response.status === 401 && err.config.url !== "/api/user/login") {
                         console.log("hi 2");
                         this.$router.push({
-                            name: "Login"
+                            name: "login"
                         });
                     }
                 });

@@ -33,6 +33,11 @@
                         </div>
                     </div>
 
+                    <div class="box notification is-link is-light">
+                        Don't have an account?
+                        <router-link to="register">Register</router-link>
+                    </div>
+
                 </div>
             </div>
         </div>

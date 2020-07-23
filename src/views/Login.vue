@@ -16,7 +16,7 @@
                             <form @submit.prevent="login">
                                 <div class="field">
                                     <div class="control has-icons-left">
-                                        <input class="input is-large" type="text" placeholder="Username" v-model="username">
+                                        <input class="input" type="text" placeholder="Username" v-model="username">
                                         <span class="icon  is-left">
                                             <app-icon icon="user" />
                                         </span>
@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="field">
                                     <div class="control has-icons-left">
-                                        <input class="input is-large" type="password" placeholder="Password" v-model="password">
+                                        <input class="input" type="password" placeholder="Password" v-model="password">
                                         <span class="icon is-left">
                                             <app-icon icon="key" />
                                         </span>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="field">
                                     <div class="control">
-                                        <button class="button is-link is-large is-fullwidth" type="submit"">Login</button>
+                                        <button class="button is-link is-fullwidth is-medium" type="submit">Login</button>
                                     </div>
                                 </div>
                             </form>
@@ -41,7 +41,7 @@
 
                     <div class="box notification is-link is-light">
                         Don't have an account?
-                        <router-link to="register">Register</router-link>
+                        <router-link :to="{ name: 'register' }">Register</router-link>
                     </div>
 
                 </div>

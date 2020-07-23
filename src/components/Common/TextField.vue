@@ -2,7 +2,7 @@
     <div class="field">
         <label class="label">{{ name }}</label>
         <div class="control has-icons-left" :class="{'has-icons-right': hasError}">
-            <input class="input is-large"
+            <input class="input"
                    :class="{'is-danger': hasError}"
                    :type="type"
                    :placeholder="name"

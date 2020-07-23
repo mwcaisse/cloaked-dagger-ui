@@ -44,7 +44,7 @@
 
                                 <div class="field">
                                     <div class="control">
-                                        <button class="button is-link is-large is-fullwidth"
+                                        <button class="button is-link is-medium is-fullwidth"
                                                 type="submit"
                                                 :disabled="!hasValidationIssues"
                                         >
@@ -58,7 +58,7 @@
 
                     <div class="box notification is-link is-light">
                         Already have an account?
-                        <router-link to="login">Login</router-link>
+                        <router-link :to="{ name: 'login' }">Login</router-link>
                     </div>
 
                 </div>

@@ -1,5 +1,26 @@
 <template>
     <div id="app">
+        <nav class="navbar is-dark" role="navigation">
+            <div class="navbar-brand">
+                <router-link :to="{ name: 'home' }" class="navbar-item">
+                    Cloaked Dagger
+                </router-link>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable" v-if="user">
+                    <a class="navbar-link">
+                        {{ user.name }}
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" @click="logout">
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
         <router-view/>
     </div>
 </template>
@@ -11,6 +32,20 @@
 
     export default {
         name: "Home",
+        data: function() {
+            return {
+                user: null
+            }
+        },
+        methods: {
+            logout() {
+                new UserService().logout().then(() => {
+                    this.$router.push({
+                        name: "login"
+                    });
+                });
+            }
+        },
         created: function () {
             axios.interceptors.response.use(undefined, (err) => {
                 return new Promise((resolve, reject) => {
@@ -27,7 +62,9 @@
 
             // Attempt to fetch info around the currently logged in user, to redirect to login if
             // we aren't currently logged in
-            new UserService().me();
+            new UserService().me().then(data => {
+                this.user = data;
+            });
         }
     }
 

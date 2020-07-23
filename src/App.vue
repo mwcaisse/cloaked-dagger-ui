@@ -60,15 +60,12 @@
                 });
             });
 
-            // Attempt to fetch info around the currently logged in user, to redirect to login if
-            // we aren't currently logged in
-            new UserService().me().then(data => {
+            // Fetch the currently logged in user to populate the nav bar
+             /*new UserService().me().then(data => {
                 this.user = data;
-            });
+            }); */
         }
     }
-
-
 </script>
 
 <style>

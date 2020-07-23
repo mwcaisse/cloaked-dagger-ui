@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import router from "@app/router"
+
 import { UserService } from "@app/services/ApplicationProxy.js"
 
 const userService = new UserService();
@@ -9,12 +11,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        authenticated: false,
-        status: "logged_out"
+        authenticated: true,
+        status: "logged_in",
+        currentUser: null
     },
     getters: {
         isAuthenticated: state =>  state.authenticated,
-        status: state => status
+        status: state => state.status,
+        currentUser: state => state.currentUser
     },
     mutations: {
         authRequest(state) {
@@ -31,6 +35,10 @@ export default new Vuex.Store({
         authLogout(state) {
             state.authenticated = false;
             state.status = "logged_out";
+            state.currentUser = null;
+        },
+        updateCurrentUser(state, user) {
+            state.currentUser = user;
         }
     },
     actions: {
@@ -41,6 +49,7 @@ export default new Vuex.Store({
                 userService.login(username, password).then(
                     res => {
                         commit("authSuccessful");
+                        dispatch("fetchCurrentUser");
                         resolve(res);
                     },
                     err => {
@@ -55,6 +64,9 @@ export default new Vuex.Store({
                userService.logout().then(
                     res => {
                         commit("authLogout")
+                        router.push({
+                            name: "login"
+                        });
                         resolve(res);
                    },
                    err => {
@@ -62,6 +74,16 @@ export default new Vuex.Store({
                    }
                )
             });
+        },
+        fetchCurrentUser({commit, dispatch}) {
+            return new Promise( (resolve, reject) => {
+                userService.me().then(
+                    res => {
+                        commit("updateCurrentUser", res);
+                        resolve(res);
+                    }
+                );
+            })
         }
     },
     modules: {

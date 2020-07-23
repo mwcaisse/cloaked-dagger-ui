@@ -27,6 +27,7 @@
 
 <script>
     import axios from "axios"
+    import { mapGetters } from "vuex"
 
     import { UserService } from "@app/services/ApplicationProxy.js";
 
@@ -34,22 +35,23 @@
         name: "Home",
         data: function() {
             return {
-                user: null
             }
         },
         methods: {
             logout() {
-                new UserService().logout().then(() => {
-                    this.$router.push({
-                        name: "login"
-                    });
-                });
+                this.$store.dispatch("logout");
             }
+        },
+        computed: {
+            ...mapGetters({
+                user: "currentUser"
+            })
         },
         created: function () {
             axios.interceptors.response.use(undefined, (err) => {
                 return new Promise((resolve, reject) => {
                     if (err.response.status === 401 && err.config.url !== "/api/user/login") {
+                        this.$store.commit("authLogout");
                         this.$router.push({
                             name: "login"
                         });
@@ -60,10 +62,7 @@
                 });
             });
 
-            // Fetch the currently logged in user to populate the nav bar
-             /*new UserService().me().then(data => {
-                this.user = data;
-            }); */
+            this.$store.dispatch("fetchCurrentUser");
         }
     }
 </script>

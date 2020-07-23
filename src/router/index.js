@@ -22,7 +22,8 @@ const routes = [
         name: "login",
         component: Login,
         meta: {
-            requiresAuth: false
+            requiresAuth: false,
+            requiresNoAuth: true
         }
     },
     {
@@ -30,7 +31,8 @@ const routes = [
         name: "register",
         component: Register,
         meta: {
-            requiresAuth: false
+            requiresAuth: false,
+            requiresNoAuth: true
         }
     }
 ];
@@ -43,9 +45,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
+        console.log("Trying to navigate to a page that requires auth: " + store.getters.isAuthenticated)
         if (!store.getters.isAuthenticated) {
             next({
                 path: "/login"
+            });
+        }
+        else {
+            next();
+        }
+    }
+    else if (to.matched.some(record => record.meta.requiresNoAuth)) {
+        console.log("Trying to navigate to a page that requires no auth: " + store.getters.isAuthenticated)
+        if (store.getters.isAuthenticated) {
+            next({
+                path: "/"
             });
         }
         else {

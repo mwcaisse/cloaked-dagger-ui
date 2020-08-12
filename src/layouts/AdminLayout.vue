@@ -8,6 +8,7 @@
                             Administration
                         </p>
                         <ul class="menu-list">
+                            <li><a>Home</a></li>
                             <li><a>Register Client</a></li>
                             <li><a>Resources</a></li>
                             <li><a>Scopes</a></li>

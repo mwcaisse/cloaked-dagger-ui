@@ -21,13 +21,18 @@
                 </div>
             </div>
         </nav>
-        <router-view/>
+        <component :is="layout">
+            <router-view/>
+        </component>
     </div>
 </template>
 
 <script>
     import axios from "axios"
     import { mapGetters } from "vuex"
+
+    import DefaultLayout from "@app/layouts/DefaultLayout.vue"
+    import AdminLayout from "@app/layouts/AdminLayout.vue"
 
     import { UserService } from "@app/services/ApplicationProxy.js";
 
@@ -45,7 +50,15 @@
         computed: {
             ...mapGetters({
                 user: "currentUser"
-            })
+            }),
+            layout() {
+                let routeLayout = this.$route.meta.layout;
+                //TODO: Probably want to expand this into a dictionary at some point
+                if (routeLayout === "admin") {
+                    return AdminLayout;
+                }
+                return DefaultLayout;
+            }
         },
         created: function () {
             axios.interceptors.response.use(undefined, (err) => {
@@ -72,7 +85,6 @@
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
         color: #2c3e50;
     }
 

@@ -1,54 +1,48 @@
 <template>
-
-    <section class="section">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                    <div class="card is-horizontal">
-                        <div class="card-image pt-4">
-                            <app-icon icon="khanda" size="10x"/>
-                        </div>
-                        <div class="card-content">
-                            <div class="notification is-danger" v-if="error">
-                                <button class="delete" @click="clearError"></button>
-                                {{ error }}
+    <div class="columns is-centered">
+        <div class="column is-one-third">
+            <div class="card is-horizontal">
+                <div class="card-image pt-4 has-text-centered">
+                    <app-icon icon="khanda" size="10x"/>
+                </div>
+                <div class="card-content">
+                    <div class="notification is-danger" v-if="error">
+                        <button class="delete" @click="clearError"></button>
+                        {{ error }}
+                    </div>
+                    <form @submit.prevent="login">
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Username" v-model="username">
+                                <span class="icon  is-left">
+                                    <app-icon icon="user" />
+                                </span>
                             </div>
-                            <form @submit.prevent="login">
-                                <div class="field">
-                                    <div class="control has-icons-left">
-                                        <input class="input" type="text" placeholder="Username" v-model="username">
-                                        <span class="icon  is-left">
-                                            <app-icon icon="user" />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="control has-icons-left">
-                                        <input class="input" type="password" placeholder="Password" v-model="password">
-                                        <span class="icon is-left">
-                                            <app-icon icon="key" />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="control">
-                                        <button class="button is-link is-fullwidth is-medium" type="submit">Login</button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
-                    </div>
-
-                    <div class="box notification is-link is-light">
-                        Don't have an account?
-                        <router-link :to="{ name: 'register' }">Register</router-link>
-                    </div>
-
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input class="input" type="password" placeholder="Password" v-model="password">
+                                <span class="icon is-left">
+                                    <app-icon icon="key" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link is-fullwidth is-medium" type="submit">Login</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
 
+            <div class="box notification is-link is-light has-text-centered">
+                Don't have an account?
+                <router-link :to="{ name: 'register' }">Register</router-link>
+            </div>
+
+        </div>
+    </div>
 </template>
 
 <script>
@@ -63,6 +57,13 @@
         components: {
             "app-icon": Icon
         },
+        props: {
+            returnUrl: {
+                type: String,
+                default: null,
+                required: false
+            }
+        },
         data: function() {
             return {
                 username: "",
@@ -74,9 +75,17 @@
             login() {
                 this.$store.dispatch("login", {username: this.username, password: this.password}).then(
                     () => {
-                        this.$router.push({
-                            name: "home"
-                        })
+                        console.log("return URL be: " + this.returnUrl);
+                        // If a returnUrl was set we want to navigate there instead
+                        if (this.returnUrl) {
+                            window.location = this.returnUrl;
+                        }
+                        else {
+                            this.$router.push({
+                                name: "home"
+                            });
+                        }
+
                     },
                     error => {
                         this.error="Invalid username/password!";
@@ -120,5 +129,6 @@
         }
 
     }
+
 
 </style>

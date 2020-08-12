@@ -1,71 +1,65 @@
 <template>
+    <div class="columns is-centered">
+        <div class="column is-one-third">
+            <div class="card is-horizontal">
+                <div class="card-image pt-4 has-text-centered">
+                    <app-icon icon="khanda" size="10x"/>
+                </div>
+                <div class="card-content has-text-left">
+                    <div class="notification is-danger" v-if="error">
+                        <button class="delete" @click="clearError"></button>
+                        {{ error }}
+                    </div>
+                    <form @submit.prevent="register">
+                        <app-text-field name="Username"
+                                        icon="user"
+                                        v-model="username"
+                                        :validator="validateNotEmpty"
+                        />
+                        <app-text-field name="Password"
+                                        icon="key" v-model="password"
+                                        type="password"
+                                        :validator="validatePassword"
+                        />
+                        <app-text-field name="Confirm Password"
+                                        icon="key"
+                                        v-model="passwordConfirm"
+                                        type="password"
+                                        :validator="validatePasswordConfirm"
+                                        ref="passwordConfirmField"
+                        />
+                        <app-text-field name="Email"
+                                        icon="envelope"
+                                        v-model="email"
+                                        :validator="validateEmail"
+                        />
+                        <app-text-field name="Name"
+                                        icon="id-badge"
+                                        v-model="name"
+                                        :validator="validateNotEmpty"
+                        />
 
-    <section class="section">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                    <div class="card is-horizontal">
-                        <div class="card-image pt-4">
-                            <app-icon icon="khanda" size="10x"/>
-                        </div>
-                        <div class="card-content registration-form">
-                            <div class="notification is-danger" v-if="error">
-                                <button class="delete" @click="clearError"></button>
-                                {{ error }}
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link is-medium is-fullwidth"
+                                        type="submit"
+                                        :disabled="!hasValidationIssues"
+                                >
+                                    Register
+                                </button>
                             </div>
-                            <form @submit.prevent="register">
-                                <app-text-field name="Username"
-                                                icon="user"
-                                                v-model="username"
-                                                :validator="validateNotEmpty"
-                                />
-                                <app-text-field name="Password"
-                                                icon="key" v-model="password"
-                                                type="password"
-                                                :validator="validatePassword"
-                                />
-                                <app-text-field name="Confirm Password"
-                                                icon="key"
-                                                v-model="passwordConfirm"
-                                                type="password"
-                                                :validator="validatePasswordConfirm"
-                                                ref="passwordConfirmField"
-                                />
-                                <app-text-field name="Email"
-                                                icon="envelope"
-                                                v-model="email"
-                                                :validator="validateEmail"
-                                />
-                                <app-text-field name="Name"
-                                                icon="id-badge"
-                                                v-model="name"
-                                                :validator="validateNotEmpty"
-                                />
-
-                                <div class="field">
-                                    <div class="control">
-                                        <button class="button is-link is-medium is-fullwidth"
-                                                type="submit"
-                                                :disabled="!hasValidationIssues"
-                                        >
-                                            Register
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
-                    </div>
-
-                    <div class="box notification is-link is-light">
-                        Already have an account?
-                        <router-link :to="{ name: 'login' }">Login</router-link>
-                    </div>
-
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
 
+            <div class="box notification is-link is-light has-text-centered">
+                Already have an account?
+                <router-link :to="{ name: 'login' }">Login</router-link>
+            </div>
+
+        </div>
+    </div>
 </template>
 
 <script>
@@ -205,10 +199,6 @@
         100% {
             background-position: 0% 50%
         }
-    }
-
-    .registration-form {
-        text-align: left
     }
 
 </style>

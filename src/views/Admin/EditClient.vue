@@ -19,7 +19,7 @@
                 </div>
                 <div class="field-body">
                     <p class="control" >
-                        <span class="field-text">Name goes here at some point. Maybe</span>
+                        <span class="field-text">{{ name }}</span>
                     </p>
                 </div>
             </div>
@@ -38,7 +38,15 @@
         <div class="pt-3"></div>
 
         <div class="box">
-            <h3 class="subtitle is-3">Redirect URIs</h3>
+            <h3 class="subtitle is-3">
+                Redirect URIs
+                <span class="is-pulled-right is-size-5">
+                    <app-icon
+                        icon="plus"
+                        :action="true"
+                    />
+                </span>
+            </h3>
             <span>
                 The different redirect URIs for the client.
             </span>
@@ -55,7 +63,7 @@
         <div class="box">
             <h3 class="subtitle is-3">
                 Allowed Grant Types
-                <span class="is-pulled-right">
+                <span class="is-pulled-right is-size-5">
                     <app-icon
                         icon="plus"
                         :action="true"
@@ -72,6 +80,23 @@
                     <li><span class="has-text-weight-bold">Client Credentials</span>: Allows the application to request client credentials for app to app communication.</li>
                 </ul>
             </div>
+
+            <div class="pt-3"></div>
+            <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
+                <tbody>
+                <tr v-for="grantType in allowedGrantTypes" :key="grantType">
+                    <td>{{ grantType }}</td>
+                    <td>
+                        <span class="is-pulled-right">
+                            <app-icon
+                                icon="trash"
+                                :action="true"
+                            />
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="pt-3"></div>
@@ -79,21 +104,71 @@
         <div class="columns">
             <div class="column">
                 <div class="box">
-                    <h3 class="subtitle is-3">Allowed Scopes</h3>
+                    <h3 class="subtitle is-3">
+                        Allowed Scopes
+                        <span class="is-pulled-right is-size-5">
+                            <app-icon
+                                icon="plus"
+                                :action="true"
+                                @click.native="addAllowedScope()"
+                            />
+                        </span>
+                    </h3>
                     <span>
                         The scopes that this application is allowed to request. In other words the functionality
                         of protected APIs that the client is allowed to request access to.
                     </span>
+                    <div class="pt-3"></div>
+                    <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
+                        <tbody>
+                            <tr v-for="scope in allowedScopes" :key="scope">
+                                <td>{{ scope }}</td>
+                                <td>
+                                    <span class="is-pulled-right">
+                                        <app-icon
+                                            icon="trash"
+                                            :action="true"
+                                        />
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
             <div class="column">
                 <div class="box">
-                    <h3 class="subtitle is-3">Allowed Identities</h3>
+                    <h3 class="subtitle is-3">
+                        Allowed Identities
+                        <span class="is-pulled-right is-size-5">
+                            <app-icon
+                                icon="plus"
+                                :action="true"
+                            />
+                        </span>
+
+                    </h3>
                     <span>
                         The OpenID Identities that this application is allowed to request. In other
                         words the pieces of the user's profile the application is allowed access to.
                     </span>
+                    <div class="pt-3"></div>
+                    <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
+                        <tbody>
+                        <tr v-for="identity in allowedIdentities" :key="identity">
+                            <td>{{ identity }}</td>
+                            <td>
+                                    <span class="is-pulled-right">
+                                        <app-icon
+                                            icon="trash"
+                                            :action="true"
+                                        />
+                                    </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -111,14 +186,31 @@ export default {
     },
     data: function () {
         return {
-            id,
-            name: "",
-            description: ""
+            id: "",
+            name: "Amazing Client Name",
+            description: "",
+            allowedScopes: [
+                "das-cookbook.read",
+                "das-cookbook.write"
+            ],
+            allowedIdentities: [
+                "openid",
+                "profile",
+                "email"
+            ],
+            allowedGrantTypes: [
+                "authorization_code",
+                "client_credentials"
+            ],
+            redirectUris: []
         }
     },
     methods: {
         create() {
 
+        },
+        addAllowedScope() {
+            this.allowedScopes.push("new scope 1");
         }
     }
 }
@@ -144,6 +236,22 @@ export default {
         padding-top:calc(.5em - 1px);
         position:relative;
         vertical-align:top
+    }
+
+    .table.is-bordered-outer td:first-child {
+        border-left-width: 1px;
+    }
+
+    .table.is-bordered-outer td:last-child {
+        border-right-width: 1px;
+    }
+
+    .table.is-bordered-outer tr:first-child td {
+        border-top-width: 1px;
+    }
+
+    .table.is-bordered-outer tr:last-child td {
+        border-bottom-width: 1px;
     }
 
 </style>

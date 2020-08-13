@@ -1,16 +1,24 @@
 <template>
     <div class="field">
         <label class="label">{{ name }}</label>
-        <div class="control has-icons-left" :class="{'has-icons-right': hasError}">
+        <div class="control" :class="{'has-icons-right': hasError, 'has-icons-left': hasIcon}">
             <input class="input"
                    :class="{'is-danger': hasError}"
                    :type="type"
                    :placeholder="name"
+                   :readonly="readonly"
                    v-model="value"
                    v-on:blur="validate"
                    v-on:keyup.enter="$emit('enter_pressed')"
+                   v-if="!isTextArea"
             >
-            <span class="icon is-left">
+            <textarea class="textarea"
+                      :rows="height"
+                      :readonly="readonly"
+                      v-if="isTextArea"
+            >
+            </textarea>
+            <span class="icon is-left" v-if="hasIcon">
                 <app-icon :icon="icon" />
             </span>
             <span class="icon is-right has-text-danger" v-if="hasError">
@@ -41,6 +49,12 @@
         computed: {
             hasError: function () {
                 return this.errors && this.errors.length > 0;
+            },
+            hasIcon() {
+                return !!this.icon;
+            },
+            isTextArea() {
+                return this.height > 1;
             }
         },
         props: {
@@ -53,7 +67,7 @@
             },
             icon: {
                 type: String,
-                required: true,
+                required: false,
             },
             type: {
                 type: String,
@@ -66,6 +80,16 @@
                 default: function (val, name) {
                     return []; // empty list means no validation errors, populate list with validation errors
                 }
+            },
+            height: {
+                type: Number,
+                default: 1,
+                required: false
+            },
+            readonly: {
+                type: Boolean,
+                default: false,
+                required: false
             }
         },
         watch: {

@@ -5,6 +5,7 @@ import Register from "@app/views/Register.vue"
 import Home from "@app/views/Home.vue"
 import AdminHome from "@app/views/Admin/Home.vue"
 import AdminCreateClient from "@app/views/Admin/CreateClient.vue"
+import AdminEditClient from "@app/views/Admin/EditClient.vue"
 
 import store from "@app/store"
 
@@ -61,6 +62,15 @@ const routes = [
         path: "/admin/client/new",
         name: "admin-create-client",
         component: AdminCreateClient,
+        meta: {
+            requiresAuth: false,
+            layout: "admin"
+        }
+    },
+    {
+        path: "/admin/client/",
+        name: "admin-edit-client",
+        component: AdminEditClient,
         meta: {
             requiresAuth: false,
             layout: "admin"

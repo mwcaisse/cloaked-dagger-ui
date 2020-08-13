@@ -10,8 +10,8 @@
 
             <!-- TODO: Make this a text area -->
             <app-text-field name="Description"
-                            icon="id-badge"
                             v-model="description"
+                            height="3"
             />
 
             <div class="field">

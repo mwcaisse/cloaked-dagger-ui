@@ -13,26 +13,18 @@
                     </p>
                 </div>
             </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">Name</label>
-                </div>
-                <div class="field-body">
-                    <p class="control" >
-                        <span class="field-text">{{ name }}</span>
-                    </p>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">Description</label>
-                </div>
-                <div class="field-body">
-                    <p class="control" >
-                        <span class="field-text">Description goes here at some point. Maybe</span>
-                    </p>
-                </div>
-            </div>
+            <app-text-field
+                name="Name"
+                icon="id-badge"
+                :horizontal="true"
+                v-model="name"
+            />
+            <app-text-field
+                name="Description"
+                :horizontal="true"
+                v-model="description"
+                :height="3"
+            />
         </div>
 
         <div class="pt-3"></div>

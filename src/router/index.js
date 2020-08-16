@@ -6,6 +6,8 @@ import Home from "@app/views/Home.vue"
 import AdminHome from "@app/views/Admin/Home.vue"
 import AdminCreateClient from "@app/views/Admin/CreateClient.vue"
 import AdminEditClient from "@app/views/Admin/EditClient.vue"
+import AdminResources from "@app/views/Admin/Resources.vue"
+import AdminEditResource from "@app/views/Admin/EditResource.vue"
 
 import store from "@app/store"
 
@@ -71,6 +73,15 @@ const routes = [
         path: "/admin/client/",
         name: "admin-edit-client",
         component: AdminEditClient,
+        meta: {
+            requiresAuth: false,
+            layout: "admin"
+        }
+    },
+    {
+        path: "/admin/resource/",
+        name: "admin-edit-resource",
+        component: AdminEditResource,
         meta: {
             requiresAuth: false,
             layout: "admin"

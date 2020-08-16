@@ -8,10 +8,10 @@
                             Administration
                         </p>
                         <ul class="menu-list">
-                            <li><a>Home</a></li>
-                            <li><a>Register Client</a></li>
-                            <li><a>Resources</a></li>
-                            <li><a>Scopes</a></li>
+                            <li><router-link :to="{ name: 'admin'}">Home</router-link></li>
+                            <li><router-link :to="{ name: 'admin-create-client'}">Register Client</router-link></li>
+                            <li><a>Clients</a></li>
+                            <li><router-link :to="{ name: 'admin-resources'}">Resources</router-link></li>
                             <li><a>Users</a></li>
                         </ul>
                     </aside>

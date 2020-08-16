@@ -36,6 +36,11 @@
                 return this.horizontal === true;
             }
         },
+        watch: {
+            value(newValue) {
+                this.$emit("input", newValue);
+            }
+        },
         props: {
             horizontal: {
                 type: Boolean,

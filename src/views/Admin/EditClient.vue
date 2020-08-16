@@ -25,6 +25,15 @@
                 v-model="description"
                 :height="3"
             />
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button class="button is-link"
+                            type="submit"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="pt-3"></div>
@@ -48,6 +57,24 @@
                     <li>The allowed redirect URIs that can be redirected to after the user logs out. <span class="has-text-weight-bold">At least one is required.</span></li>
                 </ul>
             </div>
+
+            <div class="pt-3"></div>
+            <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
+                <tbody>
+                <tr v-for="uri in redirectUris" :key="uri.uri">
+                    <td class="has-text-weight-bold">{{ uri.type }}</td>
+                    <td>{{ uri.uri }}</td>
+                    <td>
+                        <span class="is-pulled-right">
+                            <app-icon
+                                icon="trash"
+                                :action="true"
+                            />
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="pt-3"></div>
@@ -194,7 +221,20 @@ export default {
                 "authorization_code",
                 "client_credentials"
             ],
-            redirectUris: []
+            redirectUris: [
+                {
+                    "uri": "http://localhost:3000",
+                    "type": "Redirect"
+                },
+                {
+                    "uri": "https://google.com/",
+                    "type": "Redirect"
+                },
+                {
+                    "uri": "http://localhost:3000",
+                    "type": "Post Logout Redirect"
+                }
+            ]
         }
     },
     methods: {

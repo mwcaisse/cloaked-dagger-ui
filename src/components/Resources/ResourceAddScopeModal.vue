@@ -10,7 +10,7 @@
 
         <template slot="footer-buttons">
             <button class="button" type="button" @click="create">
-                Create
+                Add
             </button>
         </template>
 

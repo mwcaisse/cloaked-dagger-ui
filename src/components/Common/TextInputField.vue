@@ -16,6 +16,7 @@
                       :rows="height"
                       :readonly="readonly"
                       v-if="isTextArea"
+                      v-model="value"
             >
             </textarea>
             <span class="icon is-left" v-if="hasIcon">

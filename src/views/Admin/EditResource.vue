@@ -1,6 +1,9 @@
 <template>
     <div class="box">
-        <h1 class="title">Resource: {{ name }}</h1>
+        <h1 class="title">
+            <template v-if="isCreate">Creating Resource</template>
+            <template v-else>Resource: {{ name }}</template>
+        </h1>
 
         <div>
             <app-text-field
@@ -20,48 +23,52 @@
                     <button class="button is-link"
                             type="submit"
                     >
-                        Save
+                        <template v-if="isCreate">Create</template>
+                        <template v-else>Save</template>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="pt-3"></div>
-
-        <div class="box">
-            <h3 class="subtitle is-3">
-                Available Scopes
-                <span class="is-pulled-right is-size-5">
-                    <app-icon
-                        icon="plus"
-                        :action="true"
-                        @click.native="addScope"
-                    />
-                </span>
-            </h3>
-            <span>
-                The scopes that are used to protect the different APIs that this resource exposes.
-            </span>
+        <div v-if="!isCreate">
             <div class="pt-3"></div>
-            <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
-                <tbody>
-                <tr v-for="scope in availableScopes" :key="scope">
-                    <td>{{ scope }}</td>
-                    <td>
-                        <span class="is-pulled-right">
-                            <app-icon
-                                icon="trash"
-                                :action="true"
-                            />
-                        </span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
+            <div class="box">
+                <h3 class="subtitle is-3">
+                    Available Scopes
+                    <span class="is-pulled-right is-size-5">
+                        <app-icon
+                            icon="plus"
+                            :action="true"
+                            @click.native="addScope"
+                        />
+                    </span>
+                </h3>
+                <span>
+                    The scopes that are used to protect the different APIs that this resource exposes.
+                </span>
+                <div class="pt-3"></div>
+                <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
+                    <tbody>
+                    <tr v-for="scope in availableScopes" :key="scope">
+                        <td>{{ scope }}</td>
+                        <td>
+                            <span class="is-pulled-right">
+                                <app-icon
+                                    icon="trash"
+                                    :action="true"
+                                />
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <app-resource-scope-modal
+                v-on:new-scope="onScopeAdded"
+            />
         </div>
-        <app-resource-scope-modal
-            v-on:new-scope="onScopeAdded"
-        />
+
     </div>
 </template>
 
@@ -80,12 +87,24 @@
         },
         data: function () {
             return {
-                name: "DasCookbook",
+                name: "",
                 description: "",
                 availableScopes: [
                     "das-cookbook.read",
                     "das-cookbook.write"
                 ]
+            }
+        },
+        props: {
+            id: {
+                type: String,
+                required: false,
+                default: null
+            }
+        },
+        computed: {
+            isCreate() {
+                return this.id === null;
             }
         },
         methods: {

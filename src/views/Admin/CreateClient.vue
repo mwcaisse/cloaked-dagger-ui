@@ -11,7 +11,7 @@
             <!-- TODO: Make this a text area -->
             <app-text-field name="Description"
                             v-model="description"
-                            height="3"
+                            :height="3"
             />
 
             <div class="field is-grouped is-grouped-right">

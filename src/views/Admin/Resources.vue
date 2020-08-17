@@ -1,20 +1,61 @@
 <template>
     <div class="box">
         <h1 class="title">Resources</h1>
-        Here be the scopes yo
+        <span>
+            A resource is an application that exposes an API that can be called.
+        </span>
+
+        <div class="pt-3"></div>
+
+        <div class="columns is-multiline is-centered">
+            <div class="column is-one-third action" v-for="resource in resources" :key="resource.name">
+                <router-link :to="{name: 'admin-resource-edit', params: { id: 'testId' } }">
+                    <div class="box has-background-link-light has-text-centered">
+                        <p class="title">{{ resource.name }}</p>
+                    </div>
+                </router-link>
+            </div>
+            <div class="column is-one-third">
+                <router-link :to="{ name: 'admin-resource-create'}">
+                    <div class="box has-background-primary has-text-centered action">
+                        <p class="title">
+                            <app-icon icon="plus"/> Create</p>
+                    </div>
+                </router-link>
+
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import Icon from "@app/components/Common/Icon.vue"
     import TextField from "@app/components/Common/TextField.vue"
 
     export default {
         components: {
+            "app-icon": Icon,
             "app-text-field": TextField
         },
         data: function () {
             return {
-
+                resources: [
+                    {
+                        name: "Resource 1"
+                    },
+                    {
+                        name: "Resource 2"
+                    },
+                    {
+                        name: "Resource 3"
+                    },
+                    {
+                        name: "Resource 4"
+                    },
+                    {
+                        name: "Resource 5"
+                    },
+                ]
             }
         },
         methods: {
@@ -24,3 +65,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .action:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+</style>

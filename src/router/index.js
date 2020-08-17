@@ -80,13 +80,33 @@ const routes = [
     },
     {
         path: "/admin/resource/",
-        name: "admin-edit-resource",
+        name: "admin-resources",
+        component: AdminResources,
+        meta: {
+            requiresAuth: false,
+            layout: "admin"
+        }
+    },
+    {
+        path: "/admin/resource/new",
+        name: "admin-resource-create",
         component: AdminEditResource,
         meta: {
             requiresAuth: false,
             layout: "admin"
         }
+    },
+    {
+        path: "/admin/resource/:id",
+        name: "admin-resource-edit",
+        component: AdminEditResource,
+        meta: {
+            requiresAuth: false,
+            layout: "admin"
+        },
+        props: true
     }
+
 ];
 
 const router = new VueRouter({

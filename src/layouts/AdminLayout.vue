@@ -18,8 +18,19 @@
                 </div>
             </div>
             <div class="column">
+                <app-breadcrumbs />
                 <slot />
             </div>
         </div>
     </div>
 </template>
+
+<script>
+    import Breadcrumbs from "@app/components/Admin/Breadcrumbs.vue";
+
+    export default {
+        components: {
+            "app-breadcrumbs": Breadcrumbs
+        }
+    }
+</script>

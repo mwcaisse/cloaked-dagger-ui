@@ -6,6 +6,7 @@ import Home from "@app/views/Home.vue"
 import AdminHome from "@app/views/Admin/Home.vue"
 import AdminCreateClient from "@app/views/Admin/CreateClient.vue"
 import AdminEditClient from "@app/views/Admin/EditClient.vue"
+import AdminClients from "@app/views/Admin/Clients.vue"
 import AdminResources from "@app/views/Admin/Resources.vue"
 import AdminEditResource from "@app/views/Admin/EditResource.vue"
 
@@ -61,8 +62,17 @@ const routes = [
         }
     },
     {
+        path: "/admin/client/",
+        name: "admin-clients",
+        component: AdminClients,
+        meta: {
+            requiresAuth: false,
+            layout: "admin"
+        }
+    },
+    {
         path: "/admin/client/new",
-        name: "admin-create-client",
+        name: "admin-client-create",
         component: AdminCreateClient,
         meta: {
             requiresAuth: false,
@@ -70,13 +80,14 @@ const routes = [
         }
     },
     {
-        path: "/admin/client/",
-        name: "admin-edit-client",
+        path: "/admin/client/:id",
+        name: "admin-client-edit",
         component: AdminEditClient,
         meta: {
             requiresAuth: false,
             layout: "admin"
-        }
+        },
+        props: true
     },
     {
         path: "/admin/resource/",

@@ -9,8 +9,8 @@
                         </p>
                         <ul class="menu-list">
                             <li><router-link :to="{ name: 'admin'}">Home</router-link></li>
-                            <li><router-link :to="{ name: 'admin-create-client'}">Register Client</router-link></li>
-                            <li><a>Clients</a></li>
+                            <li><router-link :to="{ name: 'admin-client-create'}">Register Client</router-link></li>
+                            <li><router-link :to="{ name: 'admin-clients'}">Clients</router-link></li>
                             <li><router-link :to="{ name: 'admin-resources'}">Resources</router-link></li>
                             <li><a>Users</a></li>
                         </ul>

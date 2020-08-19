@@ -9,7 +9,7 @@
 
         <div class="columns is-multiline is-centered">
             <div class="column is-one-third action" v-for="resource in resources" :key="resource.name">
-                <router-link :to="{name: 'admin-resource-edit', params: { id: 'testId' } }">
+                <router-link :to="{name: 'admin-resource-edit', params: { id: resource.resourceId } }">
                     <div class="box has-background-link-light has-text-centered">
                         <p class="title">{{ resource.name }}</p>
                     </div>
@@ -32,6 +32,10 @@
     import Icon from "@app/components/Common/Icon.vue"
     import TextField from "@app/components/Common/TextField.vue"
 
+    import { ResourceService } from "@app/services/ApplicationProxy.js";
+
+    const resourceService = new ResourceService();
+
     export default {
         components: {
             "app-icon": Icon,
@@ -40,28 +44,26 @@
         data: function () {
             return {
                 resources: [
-                    {
-                        name: "Resource 1"
-                    },
-                    {
-                        name: "Resource 2"
-                    },
-                    {
-                        name: "Resource 3"
-                    },
-                    {
-                        name: "Resource 4"
-                    },
-                    {
-                        name: "Resource 5"
-                    },
                 ]
             }
         },
         methods: {
             create() {
 
+            },
+            fetchResources() {
+                resourceService.getAll().then(
+                    res => {
+                        this.resources = res;
+                    },
+                    err => {
+                        console.log("Error fetching resources :(")
+                    }
+                )
             }
+        },
+        created() {
+            this.fetchResources();
         }
     }
 </script>

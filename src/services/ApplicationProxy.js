@@ -29,6 +29,59 @@ class UserService {
     }
 }
 
+class ResourceService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    get(id) {
+        return this.proxy.get(`resource/${id}`);
+    }
+
+    getAll() {
+        return this.proxy.get("resource");
+    }
+
+    create(resource) {
+        return this.proxy.post("resource", resource);
+    }
+
+    update(id, resource) {
+        return this.proxy.put(`resource/${id}`, resource);
+    }
+
+    delete(id) {
+        return this.proxy.delete(`resource/${id}`);
+    }
+}
+
+class ResourceScopeService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    getForResource(resourceId) {
+        return this.proxy.get(`resource/${resourceId}/scope`);
+    }
+
+    get(resourceId, id) {
+        return this.proxy.get(`resource/${resourceId}/scope/${id}`);
+    }
+
+    create(resourceId, scope) {
+        return this.proxy.post(`resource/${resourceId}/scope`, scope);
+    }
+
+    remove(resourceId, id) {
+        return this.proxy.delete(`resource/${resourceId}/scope/${id}`)
+    }
+
+}
+
 export {
-    UserService
+    UserService,
+    ResourceService,
+    ResourceScopeService
 }

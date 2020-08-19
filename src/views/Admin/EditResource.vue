@@ -22,6 +22,7 @@
                 <div class="control">
                     <button class="button is-link"
                             type="submit"
+                            @click="save"
                     >
                         <template v-if="isCreate">Create</template>
                         <template v-else>Save</template>
@@ -50,13 +51,14 @@
                 <div class="pt-3"></div>
                 <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
                     <tbody>
-                    <tr v-for="scope in availableScopes" :key="scope">
-                        <td>{{ scope }}</td>
+                    <tr v-for="scope in availableScopes" :key="scope.resourceScopeId">
+                        <td>{{ scope.name }}</td>
                         <td>
                             <span class="is-pulled-right">
                                 <app-icon
                                     icon="trash"
                                     :action="true"
+                                    @click.native="removeScope(scope)"
                                 />
                             </span>
                         </td>
@@ -65,7 +67,9 @@
                 </table>
             </div>
             <app-resource-scope-modal
+                :resource-id="id"
                 v-on:new-scope="onScopeAdded"
+                v-if="!isCreate"
             />
         </div>
 
@@ -79,6 +83,11 @@
     import Icon from "@app/components/Common/Icon.vue"
     import ResourceAddScopeModal from "@app/components/Resources/ResourceAddScopeModal.vue";
 
+    import { ResourceService, ResourceScopeService } from "@app/services/ApplicationProxy.js";
+
+    const resourceService = new ResourceService();
+    const resourceScopeService = new ResourceScopeService();
+
     export default {
         components: {
             "app-text-field": TextField,
@@ -89,10 +98,7 @@
             return {
                 name: "",
                 description: "",
-                availableScopes: [
-                    "das-cookbook.read",
-                    "das-cookbook.write"
-                ]
+                availableScopes: []
             }
         },
         props: {
@@ -108,14 +114,77 @@
             }
         },
         methods: {
-            create() {
+            save() {
+                let resource = {
+                    name: this.name,
+                    description: this.description
+                };
+                let promise;
 
+                if (this.isCreate) {
+                    promise = resourceService.create(resource);
+                }
+                else {
+                    promise = resourceService.update(this.id, resource);
+                }
+
+                promise.then(
+                    res => {
+                        if (this.isCreate) {
+                            //navigate to the page to view this resource
+                            this.$router.push({
+                                name: "admin-resource-edit",
+                                params: {
+                                    id: res.resourceId
+                                }
+                            })
+                        }
+                        else {
+                            this.update(res);
+
+                        }
+                    },
+                    err => {
+                        console.log("Error creating / updating resource");
+                    }
+                );
+            },
+            fetch() {
+                resourceService.get(this.id).then(
+                    res => {
+                        this.update(res);
+                    },
+                    err => {
+                        console.log("Error fetching resource! :(");
+                    }
+                )
+            },
+            update(resource) {
+                this.name = resource.name;
+                this.description = resource.description;
+                this.availableScopes = resource.availableScopes;
             },
             addScope() {
                 system.events.$emit("resource-add-scope-modal::open");
             },
+            removeScope(scope) {
+                resourceScopeService.remove(this.id, scope.resourceScopeId).then(
+                    res => {
+                        let index = this.availableScopes.indexOf(scope);
+                        this.availableScopes.splice(index, 1);
+                    },
+                    err => {
+                        console.log("Error removing scope :(");
+                    }
+                )
+            },
             onScopeAdded(scope) {
-                this.availableScopes.push(scope.name);
+                this.availableScopes.push(scope);
+            }
+        },
+        created() {
+            if (!this.isCreate) {
+                this.fetch();
             }
         }
     }

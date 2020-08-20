@@ -80,8 +80,36 @@ class ResourceScopeService {
 
 }
 
+class ClientService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    get(id) {
+        return this.proxy.get(`client/${id}`);
+    }
+
+    getAll() {
+        return this.proxy.get("client");
+    }
+
+    create(client) {
+        return this.proxy.post("client", client);
+    }
+
+    update(id, client) {
+        return this.proxy.put(`client/${id}`, client);
+    }
+
+    delete(id) {
+        return this.proxy.delete(`client/${id}`);
+    }
+}
+
 export {
     UserService,
     ResourceService,
-    ResourceScopeService
+    ResourceScopeService,
+    ClientService
 }

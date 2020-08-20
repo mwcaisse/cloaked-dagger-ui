@@ -32,6 +32,10 @@
 import Icon from "@app/components/Common/Icon.vue"
 import TextField from "@app/components/Common/TextField.vue"
 
+import { ClientService } from "@app/services/ApplicationProxy";
+
+const clientService = new ClientService();
+
 export default {
     components: {
         "app-icon": Icon,
@@ -39,29 +43,23 @@ export default {
     },
     data: function () {
         return {
-            clients: [
-                {
-                    name: "DasCookbook"
-                },
-                {
-                    name: "Client 2"
-                },
-                {
-                    name: "Client 3"
-                },
-                {
-                    name: "Client 4"
-                },
-                {
-                    name: "Client 5"
-                },
-            ]
+            clients: []
         }
     },
     methods: {
-        create() {
-
+        fetchClients() {
+            clientService.getAll().then(
+                res => {
+                    this.clients = res;
+                },
+                err => {
+                    console.log("Error fetching clients :(");
+                }
+            )
         }
+    },
+    created() {
+        this.fetchClients();
     }
 }
 </script>

@@ -8,7 +8,6 @@
                             v-model="name"
             />
 
-            <!-- TODO: Make this a text area -->
             <app-text-field name="Description"
                             v-model="description"
                             :height="3"
@@ -31,6 +30,10 @@
 <script>
     import TextField from "@app/components/Common/TextField.vue"
 
+    import { ClientService } from "@app/services/ApplicationProxy";
+
+    const clientService = new ClientService();
+
     export default {
         components: {
             "app-text-field": TextField
@@ -43,7 +46,19 @@
         },
         methods: {
             create() {
+                let client = {
+                    name: this.name,
+                    description: this.description
+                };
 
+                clientService.create(client).then(
+                    res => {
+                        console.log("Client Created!")
+                    },
+                    err => {
+                        console.log("Error creating client :(");
+                    }
+                )
             }
         }
     }

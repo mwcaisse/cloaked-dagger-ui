@@ -48,9 +48,6 @@
             }
         },
         methods: {
-            create() {
-
-            },
             fetchResources() {
                 resourceService.getAll().then(
                     res => {

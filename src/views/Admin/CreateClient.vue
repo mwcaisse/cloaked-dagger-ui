@@ -53,7 +53,13 @@
 
                 clientService.create(client).then(
                     res => {
-                        console.log("Client Created!")
+                        this.$router.push({
+                            name: "admin-client-edit",
+                            params: {
+                                id: res.clientId,
+                                secret: res.secret
+                            }
+                        })
                     },
                     err => {
                         console.log("Error creating client :(");

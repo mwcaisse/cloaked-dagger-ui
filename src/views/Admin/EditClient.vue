@@ -21,12 +21,7 @@
         </article>
 
         <div class="box">
-
-
-            <h1 class="title">Client X</h1>
-
-
-
+            <h1 class="title">Client: {{ name }}</h1>
             <div>
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
@@ -54,6 +49,7 @@
                     <div class="control">
                         <button class="button is-link"
                                 type="submit"
+                                @click="save"
                         >
                             Save
                         </button>
@@ -224,6 +220,10 @@
 import TextField from "@app/components/Common/TextField.vue"
 import Icon from "@app/components/Common/Icon.vue"
 
+import { ClientService } from "@app/services/ApplicationProxy";
+
+const clientService = new ClientService();
+
 export default {
     components: {
         "app-text-field": TextField,
@@ -231,7 +231,7 @@ export default {
     },
     data: function () {
         return {
-            name: "Amazing Client Name",
+            name: "",
             description: "",
             allowedScopes: [
                 "das-cookbook.read",
@@ -280,14 +280,44 @@ export default {
         }
     },
     methods: {
-        create() {
-
+        fetch() {
+            clientService.get(this.id).then(
+                res => {
+                    this.update(res);
+                },
+                err => {
+                    console.log("Error fetching client! :(");
+                }
+            )
+        },
+        save() {
+            const vm = {
+              name: this.name,
+              description: this.description
+            };
+            clientService.update(this.id, vm).then(
+                res => {
+                    this.update(res);
+                },
+                err => {
+                    console.log("Error updating client! :(");
+                }
+            )
+        },
+        update(client) {
+            this.name = client.name;
+            this.description = client.description;
         },
         addAllowedScope() {
             this.allowedScopes.push("new scope 1");
         },
         clearSecret() {
             this.secret = null;
+        }
+    },
+    created() {
+        if (this.id) {
+            this.fetch();
         }
     }
 }

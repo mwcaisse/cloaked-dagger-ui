@@ -9,7 +9,7 @@
 
         <div class="columns is-multiline is-centered">
             <div class="column is-one-third action" v-for="client in clients" :key="client.name">
-                <router-link :to="{name: 'admin-client-edit', params: { id: 'testId' } }">
+                <router-link :to="{name: 'admin-client-edit', params: { id: client.clientId } }">
                     <div class="box has-background-link-light has-text-centered">
                         <p class="title">{{ client.name }}</p>
                     </div>

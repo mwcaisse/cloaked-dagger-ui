@@ -9,7 +9,7 @@
                    v-model="value"
                    v-on:blur="validate"
                    v-on:keyup.enter="$emit('enter_pressed')"
-                   v-if="!isTextArea"
+                   v-if="isTextField"
             >
             <textarea class="textarea"
                       :placeholder="name"
@@ -19,6 +19,14 @@
                       v-model="value"
             >
             </textarea>
+            <div class="select" v-if="isConstantPicker">
+                <select v-model="value">
+                    <option v-for="option in options" :value="option">
+                        {{ option | friendlyConstant(friendlyConstant)}}
+                    </option>
+
+                </select>
+            </div>
             <span class="icon is-left" v-if="hasIcon">
                 <app-icon :icon="icon" />
             </span>
@@ -33,8 +41,9 @@
 </template>
 
 <script>
+    import * as Constants from "@app/services/Constants";
 
-    import Icon from "@app/components/Common/Icon.vue"
+    import Icon from "@app/components/Common/Icon.vue";
     import TextInputFieldMixin from "@app/components/Common/TextInputFieldMixin";
 
     export default {
@@ -58,8 +67,20 @@
             hasIcon() {
                 return !!this.icon;
             },
+            isTextField() {
+                return this.fieldType === "text";
+            },
             isTextArea() {
-                return this.height > 1;
+                return this.fieldType === "textarea";
+            },
+            isConstantPicker() {
+                return this.fieldType === "constantPicker";
+            },
+            options() {
+                if (!this.isConstantPicker) {
+                    return [];
+                }
+                return Constants[this.constant];
             }
         },
         watch: {

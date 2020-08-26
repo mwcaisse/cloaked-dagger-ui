@@ -11,6 +11,7 @@
             <app-text-field name="Description"
                             v-model="description"
                             :height="3"
+                            field-type="textarea"
             />
 
             <div class="field is-grouped is-grouped-right">

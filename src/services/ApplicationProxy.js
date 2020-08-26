@@ -105,11 +105,35 @@ class ClientService {
     delete(id) {
         return this.proxy.delete(`client/${id}`);
     }
-}
+};
+
+class ClientUriService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    getForClient(clientId) {
+        return this.proxy.get(`client/${clientId}/uri/`);
+    }
+
+    create(clientId, uri) {
+        return this.proxy.post(`client/${clientId}/uri/`, uri);
+    }
+
+    update(clientId, id, uri) {
+        return this.proxy.put(`client/${clientId}/uri/${id}`, uri);
+    }
+
+    delete(clientId, id) {
+        return this.proxy.delete(`client/${clientId}/uri/${id}`);
+    }
+};
 
 export {
     UserService,
     ResourceService,
     ResourceScopeService,
-    ClientService
+    ClientService,
+    ClientUriService
 }

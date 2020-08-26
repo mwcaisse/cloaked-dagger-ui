@@ -44,6 +44,7 @@
                     :horizontal="true"
                     v-model="description"
                     :height="3"
+                    field-type="textarea"
                 />
                 <div class="field is-grouped is-grouped-right">
                     <div class="control">
@@ -233,6 +234,7 @@ export default {
         return {
             name: "",
             description: "",
+            uriType: 2,
             allowedScopes: [
                 "das-cookbook.read",
                 "das-cookbook.write"

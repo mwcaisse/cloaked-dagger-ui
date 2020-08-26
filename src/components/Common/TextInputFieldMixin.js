@@ -1,4 +1,6 @@
 
+//TODO: Revisit how we are allowing different types of fields.
+//  We could have a better name for this and probably a better way of defining all of these props?
 export default {
     props: {
         value: {
@@ -11,6 +13,11 @@ export default {
         icon: {
             type: String,
             required: false,
+        },
+        fieldType: {
+            type: String,
+            required: false,
+            default: "text"
         },
         type: {
             type: String,
@@ -33,6 +40,17 @@ export default {
             type: Boolean,
             default: false,
             required: false
+        },
+        constant: {
+            type: String,
+            required: false,
+            default: null
+        },
+        // required because this is actually different from constant
+        friendlyConstant: {
+            type: String,
+            required: false,
+            default: null
         }
     }
 }

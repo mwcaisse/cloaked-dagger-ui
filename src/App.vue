@@ -31,6 +31,8 @@
     import axios from "axios"
     import { mapGetters } from "vuex"
 
+    import "@app/services/CustomDirectives.js";
+
     import DefaultLayout from "@app/layouts/DefaultLayout.vue"
     import AdminLayout from "@app/layouts/AdminLayout.vue"
 

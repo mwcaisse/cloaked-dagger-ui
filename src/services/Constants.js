@@ -1,0 +1,22 @@
+
+const CLIENT_GRANT_TYPE = {
+    AUTHORIZATION_CODE: 1,
+    CLIENT_CREDENTIALS: 2
+};
+
+const CLIENT_URI_TYPE = {
+    REDIRECT: 1,
+    POST_LOGOUT_REDIRECT: 2
+};
+
+const IDENTITY = {
+    OPEN_ID: 1,
+    PROFILE: 2,
+    EMAIL: 3
+};
+
+export {
+    CLIENT_GRANT_TYPE,
+    CLIENT_URI_TYPE,
+    IDENTITY
+}

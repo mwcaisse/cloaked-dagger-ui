@@ -83,7 +83,7 @@
                 <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
                     <tbody>
                     <tr v-for="uri in redirectUris" :key="uri.uri">
-                        <td class="has-text-weight-bold">{{ uri.type }}</td>
+                        <td class="has-text-weight-bold">{{ uri.type | friendlyConstant("CLIENT_URI_TYPE")}}</td>
                         <td>{{ uri.uri }}</td>
                         <td>
                             <span class="is-pulled-right">
@@ -125,7 +125,7 @@
                 <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
                     <tbody>
                     <tr v-for="grantType in allowedGrantTypes" :key="grantType">
-                        <td>{{ grantType }}</td>
+                        <td>{{ grantType | friendlyConstant("CLIENT_GRANT_TYPE") }}</td>
                         <td>
                             <span class="is-pulled-right">
                                 <app-icon
@@ -197,7 +197,7 @@
                         <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
                             <tbody>
                             <tr v-for="identity in allowedIdentities" :key="identity">
-                                <td>{{ identity }}</td>
+                                <td>{{ identity | friendlyConstant("IDENTITY")}}</td>
                                 <td>
                                         <span class="is-pulled-right">
                                             <app-icon
@@ -238,26 +238,26 @@ export default {
                 "das-cookbook.write"
             ],
             allowedIdentities: [
-                "openid",
-                "profile",
-                "email"
+                1,
+                2,
+                3
             ],
             allowedGrantTypes: [
-                "authorization_code",
-                "client_credentials"
+                1,
+                2
             ],
             redirectUris: [
                 {
                     "uri": "http://localhost:3000",
-                    "type": "Redirect"
+                    "type": 1
                 },
                 {
                     "uri": "https://google.com/",
-                    "type": "Redirect"
+                    "type": 1
                 },
                 {
                     "uri": "http://localhost:3000",
-                    "type": "Post Logout Redirect"
+                    "type": 2
                 }
             ]
         }

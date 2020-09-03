@@ -57,7 +57,7 @@
                         this.$router.push({
                             name: "admin-client-edit",
                             params: {
-                                id: res.clientId,
+                                id: res.id,
                                 secret: res.secret
                             }
                         })

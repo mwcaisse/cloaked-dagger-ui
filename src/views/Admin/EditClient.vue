@@ -115,29 +115,17 @@
                 <span>
                     The Grant types that are allowed for this client
                 </span>
-                <div class="content">
-                    <ul>
-                        <li><span class="has-text-weight-bold">Authorization Code</span>: Allows the application to request a token on behalf of a user via a login flow.</li>
-                        <li><span class="has-text-weight-bold">Client Credentials</span>: Allows the application to request client credentials for app to app communication.</li>
-                    </ul>
-                </div>
-
                 <div class="pt-3"></div>
-                <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
-                    <tbody>
-                    <tr v-for="grantType in allowedGrantTypes" :key="grantType">
-                        <td>{{ grantType | friendlyConstant("CLIENT_GRANT_TYPE") }}</td>
-                        <td>
-                            <span class="is-pulled-right">
-                                <app-icon
-                                    icon="trash"
-                                    :action="true"
-                                />
-                            </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+
+                <div class="field" v-for="grantType in constants.CLIENT_GRANT_TYPES" :key="grantType">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" :value="grantType" v-model="allowedGrantTypes"/>
+                            <span class="has-text-weight-bold">{{ grantType | friendlyConstant("CLIENT_GRANT_TYPE") }}</span>:
+                            {{ grantType | friendlyConstant("CLIENT_GRANT_TYPE_DESCRIPTION") }}
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div class="pt-3"></div>

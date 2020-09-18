@@ -104,13 +104,6 @@
             <div class="box">
                 <h3 class="subtitle is-3">
                     Allowed Grant Types
-                    <span class="is-pulled-right is-size-5">
-                        <app-icon
-                            icon="plus"
-                            :action="true"
-                        />
-                    </span>
-
                 </h3>
                 <span>
                     The Grant types that are allowed for this client
@@ -120,7 +113,11 @@
                 <div class="field" v-for="grantType in constants.CLIENT_GRANT_TYPES" :key="grantType">
                     <div class="control">
                         <label class="checkbox">
-                            <input type="checkbox" :value="grantType" v-model="allowedGrantTypes"/>
+                            <input type="checkbox"
+                                   :value="grantType"
+                                   v-model="allowedGrantTypes"
+                                   @change="allowedGrantTypeChanged(grantType)"
+                            />
                             <span class="has-text-weight-bold">{{ grantType | friendlyConstant("CLIENT_GRANT_TYPE") }}</span>:
                             {{ grantType | friendlyConstant("CLIENT_GRANT_TYPE_DESCRIPTION") }}
                         </label>
@@ -209,9 +206,10 @@
 import TextField from "@app/components/Common/TextField.vue"
 import Icon from "@app/components/Common/Icon.vue"
 
-import { ClientService } from "@app/services/ApplicationProxy";
+import { ClientService, ClientAllowedGrantTypeService } from "@app/services/ApplicationProxy";
 
 const clientService = new ClientService();
+const clientGrantTypeService = new ClientAllowedGrantTypeService();
 
 export default {
     components: {
@@ -232,10 +230,7 @@ export default {
                 2,
                 3
             ],
-            allowedGrantTypes: [
-                1,
-                2
-            ],
+            allowedGrantTypes: [],
             redirectUris: [
                 {
                     "uri": "http://localhost:3000",
@@ -297,12 +292,29 @@ export default {
         update(client) {
             this.name = client.name;
             this.description = client.description;
+            this.allowedGrantTypes = client.allowedGrantTypes;
         },
         addAllowedScope() {
             this.allowedScopes.push("new scope 1");
         },
         clearSecret() {
             this.secret = null;
+        },
+        allowedGrantTypeChanged(grantType) {
+            if (this.allowedGrantTypes.indexOf(grantType) >= 0) {
+                clientGrantTypeService.add(this.id, grantType).then( () => {}, (error) => {
+                    console.log("Failed to add allowed grant type!");
+                    this.allowedGrantTypes.remove(grantType);
+                })
+            }
+            else {
+                clientGrantTypeService.remove(this.id, grantType).then( () => {}, (error) => {
+                    //we failed somehow, let's log and re-add
+                    //TODO: Add some sort of page message
+                    console.log("Failed to remove allowed grant type!");
+                    this.allowedGrantTypes.push(grantType);
+                })
+            }
         }
     },
     created() {

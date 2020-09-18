@@ -130,10 +130,28 @@ class ClientUriService {
     }
 };
 
+class ClientAllowedGrantTypeService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    add(clientId, grantTypeId) {
+        return this.proxy.post(`client/${clientId}/allowed-grant-type/${grantTypeId}`);
+    };
+
+    remove(clientId, grantTypeId) {
+        return this.proxy.delete(`client/${clientId}/allowed-grant-type/${grantTypeId}`);
+    };
+
+
+}
+
 export {
     UserService,
     ResourceService,
     ResourceScopeService,
     ClientService,
-    ClientUriService
+    ClientUriService,
+    ClientAllowedGrantTypeService
 }

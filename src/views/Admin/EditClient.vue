@@ -46,6 +46,27 @@
                     :height="3"
                     field-type="textarea"
                 />
+
+                <div class="field is-horizontal">
+                    <div class="field-label">
+
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <div class="tags has-addons are-large" v-if="active">
+                                <a class="tag is-dark" @click="deactivate"></a>
+                                <span class="tag is-success">Active</span>
+                            </div>
+                            <div class="tags has-addons are-large" v-else>
+                                <span class="tag is-danger">Inactive</span>
+                                <a class="tag is-dark" @click="activate"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <div class="field is-grouped is-grouped-right">
                     <div class="control">
                         <button class="button is-link"
@@ -221,7 +242,7 @@ export default {
         return {
             name: "",
             description: "",
-            uriType: 2,
+            active: false,
             allowedScopes: [
                 "das-cookbook.read",
                 "das-cookbook.write"
@@ -276,6 +297,7 @@ export default {
         update(client) {
             this.name = client.name;
             this.description = client.description;
+            this.active = client.active;
             this.allowedGrantTypes = client.allowedGrantTypes;
             this.allowedIdentities = client.allowedIdentities;
             this.uris = client.uris;
@@ -331,6 +353,22 @@ export default {
             error => {
                 console.log("Failed to remove URI!");
             })
+        },
+        activate() {
+            clientService.activate(this.id).then(() => {
+                this.active = true;
+            },
+            error => {
+                console.log("Failed to activate client!");
+            });
+        },
+        deactivate() {
+            clientService.deactivate(this.id).then(() => {
+                this.active = false;
+            },
+            error => {
+                console.log("Failed to deactivate client!");
+            });
         }
     },
     created() {

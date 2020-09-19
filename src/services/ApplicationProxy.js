@@ -102,6 +102,14 @@ class ClientService {
         return this.proxy.put(`client/${id}`, client);
     }
 
+    activate(id) {
+        return this.proxy.post(`client/${id}/activate`);
+    }
+
+    deactivate(id) {
+        return this.proxy.post(`client/${id}/deactivate`);
+    }
+
     delete(id) {
         return this.proxy.delete(`client/${id}`);
     }

@@ -67,6 +67,7 @@
                         <app-icon
                             icon="plus"
                             :action="true"
+                            @click.native="addUri"
                         />
                     </span>
                 </h3>
@@ -83,7 +84,7 @@
                 <div class="pt-3"></div>
                 <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
                     <tbody>
-                    <tr v-for="uri in redirectUris" :key="uri.uri">
+                    <tr v-for="uri in uris" :key="uri.uri">
                         <td class="has-text-weight-bold">{{ uri.type | friendlyConstant("CLIENT_URI_TYPE")}}</td>
                         <td>{{ uri.uri }}</td>
                         <td>
@@ -91,6 +92,7 @@
                                 <app-icon
                                     icon="trash"
                                     :action="true"
+                                    @click.native="deleteUri(uri)"
                                 />
                             </span>
                         </td>
@@ -167,38 +169,30 @@
                     <div class="box">
                         <h3 class="subtitle is-3">
                             Allowed Identities
-                            <span class="is-pulled-right is-size-5">
-                                <app-icon
-                                    icon="plus"
-                                    :action="true"
-                                />
-                            </span>
-
                         </h3>
                         <span>
                             The OpenID Identities that this application is allowed to request. In other
                             words the pieces of the user's profile the application is allowed access to.
                         </span>
                         <div class="pt-3"></div>
-                        <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
-                            <tbody>
-                            <tr v-for="identity in allowedIdentities" :key="identity">
-                                <td>{{ identity | friendlyConstant("IDENTITY")}}</td>
-                                <td>
-                                        <span class="is-pulled-right">
-                                            <app-icon
-                                                icon="trash"
-                                                :action="true"
-                                            />
-                                        </span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+
+                        <div class="field" v-for="allowedIdentity in constants.IDENTITIES" :key="allowedIdentity">
+                            <div class="control">
+                                <label class="checkbox">
+                                    <input type="checkbox"
+                                           :value="allowedIdentity"
+                                           v-model="allowedIdentities"
+                                           @change="allowedIdentityChanged(allowedIdentity)"
+                                   />
+                                    {{ allowedIdentity | friendlyConstant("IDENTITY")}}
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <add-uri-modal :client-id="id" v-on:new-uri="uriAdded"/>
     </div>
 </template>
 
@@ -206,15 +200,22 @@
 import TextField from "@app/components/Common/TextField.vue"
 import Icon from "@app/components/Common/Icon.vue"
 
-import { ClientService, ClientAllowedGrantTypeService } from "@app/services/ApplicationProxy";
+import AddUriModal from "@app/components/Admin/Client/AddUriModal.vue";
+
+import { ClientService, ClientAllowedGrantTypeService, ClientAllowedIdentityService, ClientUriService } from "@app/services/ApplicationProxy";
+import system from "@app/services/System";
+import {Arrays} from "@app/services/Utils.js"
 
 const clientService = new ClientService();
-const clientGrantTypeService = new ClientAllowedGrantTypeService();
+const clientAllowedGrantTypeService = new ClientAllowedGrantTypeService();
+const clientAllowedIdentityService = new ClientAllowedIdentityService();
+const clientUriService = new ClientUriService();
 
 export default {
     components: {
         "app-text-field": TextField,
-        "app-icon": Icon
+        "app-icon": Icon,
+        "add-uri-modal": AddUriModal
     },
     data: function () {
         return {
@@ -225,26 +226,9 @@ export default {
                 "das-cookbook.read",
                 "das-cookbook.write"
             ],
-            allowedIdentities: [
-                1,
-                2,
-                3
-            ],
+            allowedIdentities: [],
             allowedGrantTypes: [],
-            redirectUris: [
-                {
-                    "uri": "http://localhost:3000",
-                    "type": 1
-                },
-                {
-                    "uri": "https://google.com/",
-                    "type": 1
-                },
-                {
-                    "uri": "http://localhost:3000",
-                    "type": 2
-                }
-            ]
+            uris: []
         }
     },
     props: {
@@ -293,6 +277,8 @@ export default {
             this.name = client.name;
             this.description = client.description;
             this.allowedGrantTypes = client.allowedGrantTypes;
+            this.allowedIdentities = client.allowedIdentities;
+            this.uris = client.uris;
         },
         addAllowedScope() {
             this.allowedScopes.push("new scope 1");
@@ -302,19 +288,49 @@ export default {
         },
         allowedGrantTypeChanged(grantType) {
             if (this.allowedGrantTypes.indexOf(grantType) >= 0) {
-                clientGrantTypeService.add(this.id, grantType).then( () => {}, (error) => {
+                clientAllowedGrantTypeService.add(this.id, grantType).then( () => {}, (error) => {
                     console.log("Failed to add allowed grant type!");
-                    this.allowedGrantTypes.remove(grantType);
+                    Arrays.remove(this.allowedGrantTypes, grantType);
                 })
             }
             else {
-                clientGrantTypeService.remove(this.id, grantType).then( () => {}, (error) => {
+                clientAllowedGrantTypeService.remove(this.id, grantType).then( () => {}, (error) => {
                     //we failed somehow, let's log and re-add
                     //TODO: Add some sort of page message
                     console.log("Failed to remove allowed grant type!");
                     this.allowedGrantTypes.push(grantType);
                 })
             }
+        },
+        allowedIdentityChanged(identity) {
+            if (this.allowedIdentities.indexOf(identity) >= 0) {
+                clientAllowedIdentityService.add(this.id, identity).then( () => {}, (error) => {
+                    console.log("Failed to add allowed identity!");
+                    Arrays.remove(this.allowedIdentities, identity);
+                })
+            }
+            else {
+                clientAllowedIdentityService.remove(this.id, identity).then( () => {}, (error) => {
+                    //we failed somehow, let's log and re-add
+                    //TODO: Add some sort of page message
+                    console.log("Failed to remove allowed identity!");
+                    this.allowedIdentities.push(identity);
+                })
+            }
+        },
+        addUri() {
+            system.events.$emit("client-add-uri-modal::open");
+        },
+        uriAdded(uri) {
+            this.uris.push(uri);
+        },
+        deleteUri(uri) {
+            clientUriService.delete(this.id, uri.id).then(res => {
+                Arrays.remove(this.uris, uri);
+            },
+            error => {
+                console.log("Failed to remove URI!");
+            })
         }
     },
     created() {

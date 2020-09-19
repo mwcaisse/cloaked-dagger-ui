@@ -143,8 +143,48 @@ class ClientAllowedGrantTypeService {
     remove(clientId, grantTypeId) {
         return this.proxy.delete(`client/${clientId}/allowed-grant-type/${grantTypeId}`);
     };
+}
 
+class ClientAllowedIdentityService {
 
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    add(clientId, identityId) {
+        return this.proxy.post(`client/${clientId}/allowed-identity/${identityId}`);
+    }
+
+    remove(clientId, identityId) {
+        return this.proxy.delete(`client/${clientId}/allowed-identity/${identityId}`);
+    }
+}
+
+class ClientAllowedScopeService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    add(clientId, scopeName) {
+        return this.proxy.post(`client/${clientId}/allowed-scope/${scopeName}`);
+    }
+
+    remove(clientId, scopeName) {
+        return this.delete.post(`client/${clientId}/allowed-scope/${scopeName}`);
+    }
+
+}
+
+class ScopeService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    search(text) {
+        return this.proxy.get(`/scope/search?text=${text}`);
+    }
 }
 
 export {
@@ -153,5 +193,9 @@ export {
     ResourceScopeService,
     ClientService,
     ClientUriService,
-    ClientAllowedGrantTypeService
+    ClientAllowedGrantTypeService,
+    ClientAllowedIdentityService,
+    ClientAllowedScopeService,
+    ScopeService
+
 }

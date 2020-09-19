@@ -3,6 +3,24 @@
         ref="modal"
         title="Add URI"
     >
+
+        <div class="field">
+            <label class="label">Type</label>
+            <div class="control">
+                <div class="select">
+                    <select v-model="type">
+                        <option
+                            v-for="uriType in constants.CLIENT_URI_TYPES" :key="uriType"
+                            :value="uriType"
+                        >
+                            {{ uriType | friendlyConstant("CLIENT_URI_TYPE")}}
+                        </option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <app-text-field
             name="URI"
             v-model="uri"
@@ -54,8 +72,8 @@ export default {
             };
             clientUriService.create(this.clientId, uri).then(
                 res => {
-                    this.close();
                     this.$emit("new-uri", res);
+                    this.close();
                 },
                 err => {
                     console.log("Error creating client uri :(");
@@ -66,7 +84,8 @@ export default {
             this.$refs.modal.close();
         },
         clear() {
-            this.name = "";
+            this.type = 1;
+            this.uri = "";
         }
     },
     created() {

@@ -3,15 +3,39 @@
         ref="modal"
         title="Add Allowed Scope"
     >
-        <app-text-field
-            name="Name"
-            v-model="name"
-        />
+        <form  @submit.prevent="search(searchText)">
+            <div class="field has-addons">
+                <div class="control">
+                    <input class="input" type="text" placeholder="Find a scope" v-model="searchText" />
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-info">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="pt-3"></div>
+
+        <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
+            <tbody>
+            <tr v-for="scope in scopeOptions" :key="scope.id">
+                <td>{{ scope.name }}</td>
+                <td>
+                    <span class="is-pulled-right">
+                        <app-icon
+                            icon="plus"
+                            :action="true"
+                            @click.native="addScope(scope)"
+                        />
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
         <template slot="footer-buttons">
-            <button class="button" type="button" @click="create">
-                Add
-            </button>
         </template>
 
     </app-modal>
@@ -20,6 +44,7 @@
 <script>
 
 import system from "@app/services/System"
+import Icon from "@app/components/Common/Icon.vue"
 
 import TextField from "@app/components/Common/TextField.vue";
 import Modal from "@app/components/Common/Modal.vue"
@@ -32,7 +57,8 @@ const scopeService = new ScopeService();
 export default {
     components: {
         "app-modal": Modal,
-        "app-text-field": TextField
+        "app-text-field": TextField,
+        "app-icon": Icon
     },
     props: {
         clientId: {
@@ -43,16 +69,16 @@ export default {
     },
     data: function() {
         return {
-            selectedScope: "",
-            scopeOptions: []
+            searchText: "",
+            scopeOptions: [
+            ]
         }
     },
     methods: {
-        create() {
-            clientAllowedScopeService.add(this.clientId, this.selectedScope).then(
+        addScope(scope) {
+            clientAllowedScopeService.add(this.clientId, scope.name).then(
                 res => {
-                    this.close();
-                    this.$emit("new-scope", this.selectedScope);
+                    this.$emit("new-scope", scope);
                 },
                 err => {
                     console.log("Error adding allowed scope to  client :(");
@@ -60,7 +86,12 @@ export default {
             );
         },
         search(text) {
-
+            scopeService.search(text).then(res => {
+                this.scopeOptions = res;
+            },
+            error => {
+                console.log("Error occurred while searching for scopes :(");
+            })
         },
         close() {
             this.$refs.modal.close();
@@ -85,5 +116,21 @@ export default {
 </script>
 
 <style scoped>
+
+    .table.is-bordered-outer td:first-child {
+        border-left-width: 1px;
+    }
+
+    .table.is-bordered-outer td:last-child {
+        border-right-width: 1px;
+    }
+
+    .table.is-bordered-outer tr:first-child td {
+        border-top-width: 1px;
+    }
+
+    .table.is-bordered-outer tr:last-child td {
+        border-bottom-width: 1px;
+    }
 
 </style>

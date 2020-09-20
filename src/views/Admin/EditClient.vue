@@ -177,6 +177,7 @@
                                             <app-icon
                                                 icon="trash"
                                                 :action="true"
+                                                @click.native="removeAllowedScope(scope)"
                                             />
                                         </span>
                                     </td>
@@ -214,6 +215,7 @@
             </div>
         </div>
         <add-uri-modal :client-id="id" v-on:new-uri="uriAdded"/>
+        <add-scope-modal :client-id="id" v-on:new-scope="allowedScopeAdded"/>
     </div>
 </template>
 
@@ -221,9 +223,17 @@
 import TextField from "@app/components/Common/TextField.vue"
 import Icon from "@app/components/Common/Icon.vue"
 
-import AddUriModal from "@app/components/Admin/Client/AddUriModal.vue";
+import AddUriModal from "@app/components/Admin/Client/AddUriModal.vue"
+import AddScopeModal from "@app/components/Admin/Client/AddScopeModal.vue"
 
-import { ClientService, ClientAllowedGrantTypeService, ClientAllowedIdentityService, ClientUriService } from "@app/services/ApplicationProxy";
+import {
+    ClientService,
+    ClientAllowedGrantTypeService,
+    ClientAllowedIdentityService,
+    ClientUriService,
+    ClientAllowedScopeService
+} from "@app/services/ApplicationProxy";
+
 import system from "@app/services/System";
 import {Arrays} from "@app/services/Utils.js"
 
@@ -231,22 +241,21 @@ const clientService = new ClientService();
 const clientAllowedGrantTypeService = new ClientAllowedGrantTypeService();
 const clientAllowedIdentityService = new ClientAllowedIdentityService();
 const clientUriService = new ClientUriService();
+const clientAllowedScopeService = new ClientAllowedScopeService();
 
 export default {
     components: {
         "app-text-field": TextField,
         "app-icon": Icon,
-        "add-uri-modal": AddUriModal
+        "add-uri-modal": AddUriModal,
+        "add-scope-modal": AddScopeModal
     },
     data: function () {
         return {
             name: "",
             description: "",
             active: false,
-            allowedScopes: [
-                "das-cookbook.read",
-                "das-cookbook.write"
-            ],
+            allowedScopes: [],
             allowedIdentities: [],
             allowedGrantTypes: [],
             uris: []
@@ -300,10 +309,23 @@ export default {
             this.active = client.active;
             this.allowedGrantTypes = client.allowedGrantTypes;
             this.allowedIdentities = client.allowedIdentities;
+            this.allowedScopes = client.allowedScopes;
             this.uris = client.uris;
         },
         addAllowedScope() {
-            this.allowedScopes.push("new scope 1");
+            system.events.$emit("client-add-scope-modal::open");
+        },
+        allowedScopeAdded(scope) {
+            this.allowedScopes.push(scope.name);
+        },
+        removeAllowedScope(scope) {
+            clientAllowedScopeService.remove(this.id, scope).then(() => {
+                Arrays.remove(this.allowedScopes, scope);
+            },
+            error => {
+                console.log("Error occurred while trying to remove allowed scope");
+            });
+
         },
         clearSecret() {
             this.secret = null;

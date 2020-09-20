@@ -179,7 +179,7 @@ class ClientAllowedScopeService {
     }
 
     remove(clientId, scopeName) {
-        return this.delete.post(`client/${clientId}/allowed-scope/${scopeName}`);
+        return this.proxy.delete(`client/${clientId}/allowed-scope/${scopeName}`);
     }
 
 }
@@ -191,7 +191,7 @@ class ScopeService {
     }
 
     search(text) {
-        return this.proxy.get(`/scope/search?text=${text}`);
+        return this.proxy.get(`scope/search?text=${text}`);
     }
 }
 

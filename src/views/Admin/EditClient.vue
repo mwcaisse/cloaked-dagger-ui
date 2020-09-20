@@ -98,7 +98,7 @@
                 <div class="content">
                     <ul>
                         <li>The allowed redirect URIs that cab be redirected to after a successful login. <span class="has-text-weight-bold">At least one is required.</span></li>
-                        <li>The allowed redirect URIs that can be redirected to after the user logs out. <span class="has-text-weight-bold">At least one is required.</span></li>
+                        <li>The allowed redirect URIs that can be redirected to after the user logs out.</li>
                     </ul>
                 </div>
 

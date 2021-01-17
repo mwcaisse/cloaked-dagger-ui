@@ -29,12 +29,10 @@ const routes = [
         component: Login,
         meta: {
             requiresAuth: false,
-            //TODO: Removing this for now, to test out the OpenID login flow
-            //  Will need to revisit this later, should be a better way of determining if auth'd or not
-            //requiresNoAuth: true
+            requiresNoAuth: true
         },
         props(route) {
-            const props = { ... route.params};
+            const props = {...route.params};
 
             //TODO: I'm guessing this is case sensitive
             console.log("Logging in with returnUrl: " + route.query.ReturnUrl);
@@ -49,7 +47,7 @@ const routes = [
         component: Register,
         meta: {
             requiresAuth: false,
-            //requiresNoAuth: true
+            requiresNoAuth: true
         }
     },
     {
@@ -57,7 +55,7 @@ const routes = [
         name: "admin",
         component: AdminHome,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         }
     },
@@ -66,7 +64,7 @@ const routes = [
         name: "admin-clients",
         component: AdminClients,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         }
     },
@@ -75,7 +73,7 @@ const routes = [
         name: "admin-client-create",
         component: AdminCreateClient,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         }
     },
@@ -84,7 +82,7 @@ const routes = [
         name: "admin-client-edit",
         component: AdminEditClient,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         },
         props: true
@@ -94,7 +92,7 @@ const routes = [
         name: "admin-resources",
         component: AdminResources,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         }
     },
@@ -103,7 +101,7 @@ const routes = [
         name: "admin-resource-create",
         component: AdminEditResource,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         }
     },
@@ -112,7 +110,7 @@ const routes = [
         name: "admin-resource-edit",
         component: AdminEditResource,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             layout: "admin"
         },
         props: true
@@ -121,7 +119,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: "history",
     base: process.env.BASE_URL,
     routes
 });

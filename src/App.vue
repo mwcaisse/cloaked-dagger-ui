@@ -65,7 +65,8 @@
         created: function () {
             axios.interceptors.response.use(undefined, (err) => {
                 return new Promise((resolve, reject) => {
-                    if (err.response.status === 401 && err.config.url !== "/api/user/login") {
+                    if (err.response.status === 401 && err.config.url !== "/api/user/login" && this.$route.name !== "login") {
+                        console.log("REDIRECTING USER TO LOGIN PAGE");
                         this.$store.commit("authLogout");
                         this.$router.push({
                             name: "login"

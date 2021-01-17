@@ -51,7 +51,7 @@ module.exports = {
     },
     devServer: {
         contentBase: path.resolve(__dirname, "build"),
-        port: "3000",
+        port: "3333",
         proxy: {
             "/api": {
                 target: "http://localhost:5555",

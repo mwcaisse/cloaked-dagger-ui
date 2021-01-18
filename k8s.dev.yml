@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloaked-dagger-ui
+  namespace: dev
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: cloaked-dagger-ui
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloaked-dagger-ui
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloaked-dagger-ui
+  template:
+    metadata:
+      labels:
+        app: cloaked-dagger-ui
+    spec:
+      containers:
+        - name: cloaked-dagger-ui
+          image: registry.gitlab.com/mwcaisse/application-images/cloaked-dagger-ui:$IMAGE_TAG
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: docker-creds

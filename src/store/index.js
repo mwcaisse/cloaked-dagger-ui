@@ -16,7 +16,7 @@ export default new Vuex.Store({
         currentUser: null
     },
     getters: {
-        isAuthenticated: state =>  state.authenticated,
+        isAuthenticated: state => state.authenticated,
         status: state => state.status,
         currentUser: state => state.currentUser
     },
@@ -59,31 +59,29 @@ export default new Vuex.Store({
                 )
             });
         },
-        logout({commit, dispatch}) {
+        logout({commit}) {
             return new Promise((resolve, reject) => {
-               userService.logout().then(
+                userService.logout().then(
                     res => {
                         commit("authLogout")
                         router.push({
                             name: "login"
                         });
                         resolve(res);
-                   },
-                   err => {
+                    },
+                    err => {
                         reject(err);
-                   }
-               )
+                    }
+                )
             });
         },
-        fetchCurrentUser({commit, dispatch}) {
-            return new Promise( (resolve, reject) => {
-                userService.me().then(
-                    res => {
-                        commit("updateCurrentUser", res);
-                        resolve(res);
-                    }
-                );
-            })
+        fetchCurrentUser({commit}) {
+            return new Promise(resolve => {
+                userService.me().then(res => {
+                    commit("updateCurrentUser", res);
+                    resolve(res);
+                });
+            });
         }
     },
     modules: {

@@ -1,4 +1,6 @@
+//eslint-disable-next-line max-classes-per-file
 import Proxy from "@app/services/Proxy.js"
+import User from "@app/models/User.js";
 
 const defaultBaseUrl = "/api/";
 
@@ -25,7 +27,7 @@ class UserService {
     }
 
     me() {
-        return this.proxy.get("user/me");
+        return this.proxy.get("user/me").then(res => new User(res));
     }
 }
 

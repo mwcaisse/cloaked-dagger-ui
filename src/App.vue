@@ -6,17 +6,23 @@
                     Cloaked Dagger
                 </router-link>
             </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item has-dropdown is-hoverable" v-if="user">
-                    <a class="navbar-link">
-                        {{ user.name }}
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" @click="logout">
-                            Logout
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <router-link :to="{ name: 'admin' }" class="navbar-item" v-if="user && user.hasRole('Admin')">
+                        Admin
+                    </router-link>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item has-dropdown is-hoverable" v-if="user">
+                        <a class="navbar-link">
+                            {{ user.name }}
                         </a>
+
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" @click="logout">
+                                Logout
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,8 +71,8 @@
         created: function () {
             axios.interceptors.response.use(undefined, (err) => {
                 return new Promise((resolve, reject) => {
-                    if (err.response.status === 401 && err.config.url !== "/api/user/login" && this.$route.name !== "login") {
-                        console.log("REDIRECTING USER TO LOGIN PAGE");
+                    if (err.response.status === 401 && err.config.url !== "/api/user/login"
+                        && this.$route.name !== "login") {
                         this.$store.commit("authLogout");
                         this.$router.push({
                             name: "login"

@@ -1,6 +1,6 @@
 "use strict";
 
-const { VueLoaderPlugin } = require("vue-loader");
+const {VueLoaderPlugin} = require("vue-loader");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -43,7 +43,7 @@ module.exports = {
     resolve: {
         alias: {
             "@app": path.resolve(__dirname, "src/"),
-            "@test": path.resolve(__dirname, "test/unit/"),
+            "@test": path.resolve(__dirname, "tests/unit/"),
         },
         modules: [
             path.resolve(__dirname, "node_modules")

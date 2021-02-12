@@ -18,7 +18,8 @@ const CLIENT_URI_TYPE = {
 const IDENTITY = {
     [Constants.IDENTITY.OPEN_ID]: "OpenID",
     [Constants.IDENTITY.PROFILE]: "Profile",
-    [Constants.IDENTITY.EMAIL]: "Email"
+    [Constants.IDENTITY.EMAIL]: "Email",
+    [Constants.IDENTITY.USER]: "User"
 };
 
 export {

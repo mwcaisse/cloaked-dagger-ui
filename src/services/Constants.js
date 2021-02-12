@@ -22,13 +22,15 @@ const CLIENT_URI_TYPES = [
 const IDENTITY = {
     OPEN_ID: 1,
     PROFILE: 2,
-    EMAIL: 3
+    EMAIL: 3,
+    USER: 4
 };
 
 const IDENTITIES = [
     IDENTITY.OPEN_ID,
     IDENTITY.PROFILE,
-    IDENTITY.EMAIL
+    IDENTITY.EMAIL,
+    IDENTITY.USER
 ];
 
 export {

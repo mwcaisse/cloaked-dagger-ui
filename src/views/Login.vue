@@ -13,7 +13,7 @@
                     <form @submit.prevent="login">
                         <div class="field">
                             <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Username" v-model="username">
+                                <input class="input" type="text" placeholder="Username" v-model="username" autofocus>
                                 <span class="icon  is-left">
                                     <app-icon icon="user" />
                                 </span>

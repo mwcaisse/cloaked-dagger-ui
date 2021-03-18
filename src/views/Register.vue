@@ -3,47 +3,63 @@
         <div class="column is-one-third">
             <div class="card is-horizontal">
                 <div class="card-image pt-4 has-text-centered">
-                    <app-icon icon="khanda" size="10x"/>
+                    <app-icon
+                        icon="khanda"
+                        size="10x"
+                    />
                 </div>
                 <div class="card-content has-text-left">
-                    <div class="notification is-danger" v-if="error">
-                        <button class="delete" @click="clearError"></button>
+                    <div
+                        v-if="error"
+                        class="notification is-danger"
+                    >
+                        <button
+                            class="delete"
+                            @click="clearError"
+                        />
                         {{ error }}
                     </div>
                     <form @submit.prevent="register">
-                        <app-text-field name="Username"
-                                        icon="user"
-                                        v-model="username"
-                                        :validator="validateNotEmpty"
+                        <app-text-field
+                            v-model="username"
+                            name="Username"
+                            icon="user"
+                            :validator="validateNotEmpty"
                         />
-                        <app-text-field name="Password"
-                                        icon="key" v-model="password"
-                                        type="password"
-                                        :validator="validatePassword"
+                        <app-text-field
+                            v-model="password"
+                            name="Password"
+                            icon="key"
+                            type="password"
+                            :validator="validatePassword"
                         />
-                        <app-text-field name="Confirm Password"
-                                        icon="key"
-                                        v-model="passwordConfirm"
-                                        type="password"
-                                        :validator="validatePasswordConfirm"
-                                        ref="passwordConfirmField"
+                        <app-text-field
+                            ref="passwordConfirmField"
+                            v-model="passwordConfirm"
+                            name="Confirm Password"
+                            icon="key"
+                            type="password"
+                            :validator="validatePasswordConfirm"
                         />
-                        <app-text-field name="Email"
-                                        icon="envelope"
-                                        v-model="email"
-                                        :validator="validateEmail"
+                        <app-text-field
+                            v-model="email"
+                            name="Email"
+                            icon="envelope"
+                            :validator="validateEmail"
                         />
-                        <app-text-field name="Name"
-                                        icon="id-badge"
-                                        v-model="name"
-                                        :validator="validateNotEmpty"
+                        <app-text-field
+                            v-model="name"
+                            name="Name"
+                            icon="id-badge"
+                            :validator="validateNotEmpty"
                         />
 
                         <div class="field">
                             <div class="control">
-                                <button class="button is-link is-medium is-fullwidth"
-                                        type="submit"
-                                        :disabled="!hasValidationIssues"
+                                <button
+                                    class="button is-link is-medium is-fullwidth"
+                                    type="submit"
+                                    :disabled="!hasValidationIssues"
                                 >
                                     Register
                                 </button>
@@ -55,9 +71,10 @@
 
             <div class="box notification is-link is-light has-text-centered">
                 Already have an account?
-                <router-link :to="{ name: 'login' }">Login</router-link>
+                <router-link :to="{ name: 'login' }">
+                    Login
+                </router-link>
             </div>
-
         </div>
     </div>
 </template>
@@ -66,7 +83,7 @@
     import Icon from "@app/components/Common/Icon.vue"
     import TextField from "@app/components/Common/TextField.vue"
 
-    import { UserService } from "@app/services/ApplicationProxy.js";
+    import {UserService} from "@app/services/ApplicationProxy.js";
 
     const userService = new UserService();
 
@@ -75,6 +92,16 @@
         components: {
             "app-icon": Icon,
             "app-text-field": TextField
+        },
+        data: function() {
+            return {
+                username: "",
+                password: "",
+                passwordConfirm: "",
+                email: "",
+                name: "",
+                error: ""
+            }
         },
         computed: {
             hasValidationIssues: function() {
@@ -89,19 +116,9 @@
                 return errors.length === 0;
             }
         },
-        data: function() {
-            return {
-                username: "",
-                password: "",
-                passwordConfirm: "",
-                email: "",
-                name: "",
-                error: ""
-            }
-        },
         watch: {
             password(newVal) {
-                // re run the validation on the confirm password field, if it has a value and password changed
+                //re run the validation on the confirm password field, if it has a value and password changed
                 if (this.passwordConfirm) {
                     this.$refs.passwordConfirmField.validate();
                 }
@@ -133,7 +150,7 @@
                 )
             },
             cancel() {
-                window.location = "https://google.com/" // for now, since we don't have a home page
+                window.location = "https://google.com/" //for now, since we don't have a home page
             },
             validateNotEmpty(val, name) {
                 let errors = [];

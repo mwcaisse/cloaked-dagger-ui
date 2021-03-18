@@ -1,25 +1,41 @@
 <template>
     <div id="app">
-        <nav class="navbar is-dark" role="navigation">
+        <nav
+            class="navbar is-dark"
+            role="navigation"
+        >
             <div class="navbar-brand">
-                <router-link :to="{ name: 'home' }" class="navbar-item">
+                <router-link
+                    :to="{ name: 'home' }"
+                    class="navbar-item"
+                >
                     Cloaked Dagger
                 </router-link>
             </div>
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <router-link :to="{ name: 'admin' }" class="navbar-item" v-if="user && user.hasRole('Admin')">
+                    <router-link
+                        v-if="user && user.hasRole('Admin')"
+                        :to="{ name: 'admin' }"
+                        class="navbar-item"
+                    >
                         Admin
                     </router-link>
                 </div>
                 <div class="navbar-end">
-                    <div class="navbar-item has-dropdown is-hoverable" v-if="user">
+                    <div
+                        v-if="user"
+                        class="navbar-item has-dropdown is-hoverable"
+                    >
                         <a class="navbar-link">
                             {{ user.name }}
                         </a>
 
                         <div class="navbar-dropdown">
-                            <a class="navbar-item" @click="logout">
+                            <a
+                                class="navbar-item"
+                                @click="logout"
+                            >
                                 Logout
                             </a>
                         </div>
@@ -28,21 +44,21 @@
             </div>
         </nav>
         <component :is="layout">
-            <router-view/>
+            <router-view />
         </component>
     </div>
 </template>
 
 <script>
     import axios from "axios"
-    import { mapGetters } from "vuex"
+    import {mapGetters} from "vuex"
 
     import "@app/services/CustomDirectives.js";
 
     import DefaultLayout from "@app/layouts/DefaultLayout.vue"
     import AdminLayout from "@app/layouts/AdminLayout.vue"
 
-    import { UserService } from "@app/services/ApplicationProxy.js";
+    import {UserService} from "@app/services/ApplicationProxy.js";
 
     export default {
         name: "Home",
@@ -69,20 +85,18 @@
             }
         },
         created: function () {
-            axios.interceptors.response.use(undefined, (err) => {
-                return new Promise((resolve, reject) => {
-                    if (err.response.status === 401 && err.config.url !== "/api/user/login"
-                        && this.$route.name !== "login") {
-                        this.$store.commit("authLogout");
-                        this.$router.push({
-                            name: "login"
-                        });
-                    }
-                    else {
-                        reject(err);
-                    }
-                });
-            });
+            axios.interceptors.response.use(undefined, err => new Promise((resolve, reject) => {
+                if (err.response.status === 401 && err.config.url !== "/api/user/login" &&
+                    this.$route.name !== "login") {
+                    this.$store.commit("authLogout");
+                    this.$router.push({
+                        name: "login"
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            }));
 
             this.$store.dispatch("fetchCurrentUser");
         }

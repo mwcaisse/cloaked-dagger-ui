@@ -1,39 +1,48 @@
 <template>
     <div class="box">
         <h1 class="title">
-            <template v-if="isCreate">Creating Resource</template>
-            <template v-else>Resource: {{ name }}</template>
+            <template v-if="isCreate">
+                Creating Resource
+            </template>
+            <template v-else>
+                Resource: {{ name }}
+            </template>
         </h1>
 
         <div>
             <app-text-field
+                v-model="name"
                 name="Name"
                 icon="id-badge"
                 :horizontal="true"
-                v-model="name"
             />
             <app-text-field
+                v-model="description"
                 name="Description"
                 :horizontal="true"
-                v-model="description"
                 :height="3"
                 field-type="textarea"
             />
             <div class="field is-grouped is-grouped-right">
                 <div class="control">
-                    <button class="button is-link"
-                            type="submit"
-                            @click="save"
+                    <button
+                        class="button is-link"
+                        type="submit"
+                        @click="save"
                     >
-                        <template v-if="isCreate">Create</template>
-                        <template v-else>Save</template>
+                        <template v-if="isCreate">
+                            Create
+                        </template>
+                        <template v-else>
+                            Save
+                        </template>
                     </button>
                 </div>
             </div>
         </div>
 
         <div v-if="!isCreate">
-            <div class="pt-3"></div>
+            <div class="pt-3" />
 
             <div class="box">
                 <h3 class="subtitle is-3">
@@ -49,31 +58,33 @@
                 <span>
                     The scopes that are used to protect the different APIs that this resource exposes.
                 </span>
-                <div class="pt-3"></div>
+                <div class="pt-3" />
                 <table class="table is-fullwidth is-striped is-hoverable is-bordered-outer">
                     <tbody>
-                    <tr v-for="scope in availableScopes" :key="scope.resourceScopeId">
-                        <td>{{ scope.name }}</td>
-                        <td>
-                            <span class="is-pulled-right">
-                                <app-icon
-                                    icon="trash"
-                                    :action="true"
-                                    @click.native="removeScope(scope)"
-                                />
-                            </span>
-                        </td>
-                    </tr>
+                        <tr
+                            v-for="scope in availableScopes"
+                            :key="scope.resourceScopeId"
+                        >
+                            <td>{{ scope.name }}</td>
+                            <td>
+                                <span class="is-pulled-right">
+                                    <app-icon
+                                        icon="trash"
+                                        :action="true"
+                                        @click.native="removeScope(scope)"
+                                    />
+                                </span>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <app-resource-scope-modal
-                :resource-id="id"
-                v-on:new-scope="onScopeAdded"
                 v-if="!isCreate"
+                :resource-id="id"
+                @new-scope="onScopeAdded"
             />
         </div>
-
     </div>
 </template>
 
@@ -84,7 +95,7 @@
     import Icon from "@app/components/Common/Icon.vue"
     import ResourceAddScopeModal from "@app/components/Resources/ResourceAddScopeModal.vue";
 
-    import { ResourceService, ResourceScopeService } from "@app/services/ApplicationProxy.js";
+    import {ResourceService, ResourceScopeService} from "@app/services/ApplicationProxy.js";
 
     const resourceService = new ResourceService();
     const resourceScopeService = new ResourceScopeService();
@@ -95,13 +106,6 @@
             "app-icon": Icon,
             "app-resource-scope-modal": ResourceAddScopeModal
         },
-        data: function () {
-            return {
-                name: "",
-                description: "",
-                availableScopes: []
-            }
-        },
         props: {
             id: {
                 type: String,
@@ -109,9 +113,21 @@
                 default: null
             }
         },
+        data: function () {
+            return {
+                name: "",
+                description: "",
+                availableScopes: []
+            }
+        },
         computed: {
             isCreate() {
                 return this.id === null;
+            }
+        },
+        created() {
+            if (!this.isCreate) {
+                this.fetch();
             }
         },
         methods: {
@@ -181,11 +197,6 @@
             },
             onScopeAdded(scope) {
                 this.availableScopes.push(scope);
-            }
-        },
-        created() {
-            if (!this.isCreate) {
-                this.fetch();
             }
         }
     }

@@ -1,17 +1,25 @@
 <template>
     <div class="box">
-        <h1 class="title">Resources</h1>
+        <h1 class="title">
+            Resources
+        </h1>
         <span>
             A resource is an application that exposes an API that can be called.
         </span>
 
-        <div class="pt-3"></div>
+        <div class="pt-3" />
 
         <div class="columns is-multiline is-centered">
-            <div class="column is-one-third action" v-for="resource in resources" :key="resource.name">
+            <div
+                v-for="resource in resources"
+                :key="resource.name"
+                class="column is-one-third action"
+            >
                 <router-link :to="{name: 'admin-resource-edit', params: { id: resource.resourceId } }">
                     <div class="box has-background-link-light has-text-centered">
-                        <p class="title">{{ resource.name }}</p>
+                        <p class="title">
+                            {{ resource.name }}
+                        </p>
                     </div>
                 </router-link>
             </div>
@@ -19,10 +27,10 @@
                 <router-link :to="{ name: 'admin-resource-create'}">
                     <div class="box has-background-primary has-text-centered action">
                         <p class="title">
-                            <app-icon icon="plus"/> Create</p>
+                            <app-icon icon="plus" /> Create
+                        </p>
                     </div>
                 </router-link>
-
             </div>
         </div>
     </div>
@@ -32,7 +40,7 @@
     import Icon from "@app/components/Common/Icon.vue"
     import TextField from "@app/components/Common/TextField.vue"
 
-    import { ResourceService } from "@app/services/ApplicationProxy.js";
+    import {ResourceService} from "@app/services/ApplicationProxy.js";
 
     const resourceService = new ResourceService();
 
@@ -43,9 +51,11 @@
         },
         data: function () {
             return {
-                resources: [
-                ]
+                resources: []
             }
+        },
+        created() {
+            this.fetchResources();
         },
         methods: {
             fetchResources() {
@@ -58,9 +68,6 @@
                     }
                 )
             }
-        },
-        created() {
-            this.fetchResources();
         }
     }
 </script>

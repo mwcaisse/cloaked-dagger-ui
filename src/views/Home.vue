@@ -1,6 +1,8 @@
 <template>
     <div>
-        <h1 class="title">Welcome to Cloaked Dagger!</h1>
+        <h1 class="title">
+            Welcome to Cloaked Dagger!
+        </h1>
     </div>
 </template>
 

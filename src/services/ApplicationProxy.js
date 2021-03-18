@@ -115,7 +115,7 @@ class ClientService {
     delete(id) {
         return this.proxy.delete(`client/${id}`);
     }
-};
+}
 
 class ClientUriService {
 
@@ -138,7 +138,7 @@ class ClientUriService {
     delete(clientId, id) {
         return this.proxy.delete(`client/${clientId}/uri/${id}`);
     }
-};
+}
 
 class ClientAllowedGrantTypeService {
 
@@ -148,11 +148,11 @@ class ClientAllowedGrantTypeService {
 
     add(clientId, grantTypeId) {
         return this.proxy.post(`client/${clientId}/allowed-grant-type/${grantTypeId}`);
-    };
+    }
 
     remove(clientId, grantTypeId) {
         return this.proxy.delete(`client/${clientId}/allowed-grant-type/${grantTypeId}`);
-    };
+    }
 }
 
 class ClientAllowedIdentityService {

@@ -28,7 +28,7 @@ const routes = [
         name: "login",
         component: Login,
         meta: {
-            requiresAuth: false,
+            requiresAuth: false
             //requiresNoAuth: true // this is causing double redirects on the login page.. Better way to do this?
         },
         props(route) {

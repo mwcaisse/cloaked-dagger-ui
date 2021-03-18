@@ -1,40 +1,59 @@
 <template>
     <div>
-        <div class="control" :class="{'has-icons-right': hasError, 'has-icons-left': hasIcon}">
-            <input class="input"
-                   :class="{'is-danger': hasError}"
-                   :type="type"
-                   :placeholder="name"
-                   :readonly="readonly"
-                   v-model="value"
-                   v-on:blur="validate"
-                   v-on:keyup.enter="$emit('enter_pressed')"
-                   v-if="isTextField"
+        <div
+            class="control"
+            :class="{'has-icons-right': hasError, 'has-icons-left': hasIcon}"
+        >
+            <input
+                v-if="isTextField"
+                v-model="value"
+                class="input"
+                :class="{'is-danger': hasError}"
+                :type="type"
+                :placeholder="name"
+                :readonly="readonly"
+                @blur="validate"
+                @keyup.enter="$emit('enter_pressed')"
             >
-            <textarea class="textarea"
-                      :placeholder="name"
-                      :rows="height"
-                      :readonly="readonly"
-                      v-if="isTextArea"
-                      v-model="value"
+            <textarea
+                v-if="isTextArea"
+                v-model="value"
+                class="textarea"
+                :placeholder="name"
+                :rows="height"
+                :readonly="readonly"
+            />
+            <div
+                v-if="isConstantPicker"
+                class="select"
             >
-            </textarea>
-            <div class="select" v-if="isConstantPicker">
                 <select v-model="value">
-                    <option v-for="option in options" :value="option">
-                        {{ option | friendlyConstant(friendlyConstant)}}
+                    <option
+                        v-for="option in options"
+                        :value="option"
+                    >
+                        {{ option | friendlyConstant(friendlyConstant) }}
                     </option>
-
                 </select>
             </div>
-            <span class="icon is-left" v-if="hasIcon">
+            <span
+                v-if="hasIcon"
+                class="icon is-left"
+            >
                 <app-icon :icon="icon" />
             </span>
-            <span class="icon is-right has-text-danger" v-if="hasError">
+            <span
+                v-if="hasError"
+                class="icon is-right has-text-danger"
+            >
                 <app-icon icon="exclamation-triangle" />
             </span>
         </div>
-        <p class="help is-danger" v-for="error in errors" :key="error">
+        <p
+            v-for="error in errors"
+            :key="error"
+            class="help is-danger"
+        >
             {{ error }}
         </p>
     </div>
@@ -48,12 +67,10 @@
 
     export default {
         name: "TextInputField",
-        mixins: [
-            TextInputFieldMixin
-        ],
         components: {
             "app-icon": Icon
         },
+        mixins: [TextInputFieldMixin],
         data: function () {
             return {
                 hasLostFocus: false,
@@ -65,7 +82,7 @@
                 return this.errors && this.errors.length > 0;
             },
             hasIcon() {
-                return !!this.icon;
+                return Boolean(this.icon);
             },
             isTextField() {
                 return this.fieldType === "text";
@@ -87,7 +104,7 @@
             value(newValue) {
                 this.$emit("input", newValue);
 
-                // If we've lost focus already, we mind as well revalidate as typing
+                //If we've lost focus already, we mind as well revalidate as typing
                 if (this.hasLostFocus) {
                     this.validate();
                 }

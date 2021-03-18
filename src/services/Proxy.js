@@ -1,4 +1,4 @@
-﻿import axios from "axios"
+import axios from "axios"
 
 export default class APIService {
 
@@ -7,7 +7,7 @@ export default class APIService {
     }
 
     request(options) {
-        // Add the base url to the url
+        //Add the base url to the url
         options.url = this.baseUrl + options.url;
         let defaults = {
             headers: {
@@ -15,7 +15,7 @@ export default class APIService {
             },
             method: "GET"
         }
-        return axios.request(Object.assign({}, defaults, options)).then( res => res.data);
+        return axios.request({...defaults, ...options}).then(res => res.data);
     }
 
     get(url) {

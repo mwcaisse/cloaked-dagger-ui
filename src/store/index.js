@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue"
+import Vuex from "vuex"
 
 import router from "@app/router"
 
-import { UserService } from "@app/services/ApplicationProxy.js"
+import {UserService} from "@app/services/ApplicationProxy.js"
 
 const userService = new UserService();
 

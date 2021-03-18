@@ -1,12 +1,17 @@
 <template>
-    <nav class="breadcrumb has-arrow-separator is-medium" aria-label="breadcrumbs">
+    <nav
+        class="breadcrumb has-arrow-separator is-medium"
+        aria-label="breadcrumbs"
+    >
         <ul>
-            <li v-for="(breadcrumb, index) in breadcrumbs"
+            <li
+                v-for="(breadcrumb, index) in breadcrumbs"
                 :key="breadcrumb.id"
-                :class="{'is-active': breadcrumb.clickable === false || index === breadcrumbs.length - 1  }"
-
+                :class="{'is-active': breadcrumb.clickable === false || index === breadcrumbs.length - 1 }"
             >
-                <router-link :to="{ name: breadcrumb.id }">{{ breadcrumb.name }}</router-link>
+                <router-link :to="{ name: breadcrumb.id }">
+                    {{ breadcrumb.name }}
+                </router-link>
             </li>
         </ul>
     </nav>
@@ -28,7 +33,7 @@
         return arr;
     }
 
-    BREADCRUMBS_MAP["admin"] = createBreadcrumb("admin-base", {
+    BREADCRUMBS_MAP.admin = createBreadcrumb("admin-base", {
         id: "admin",
         name: "Home",
         clickable: false
@@ -71,8 +76,8 @@
                 if (BREADCRUMBS_MAP.hasOwnProperty(routeName)) {
                     return BREADCRUMBS_MAP[routeName];
                 }
-                // default to admin
-                return BREADCRUMBS_MAP["admin"];
+                //default to admin
+                return BREADCRUMBS_MAP.admin;
             }
         }
     }

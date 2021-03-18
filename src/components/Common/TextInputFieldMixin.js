@@ -1,6 +1,8 @@
 
-//TODO: Revisit how we are allowing different types of fields.
-//  We could have a better name for this and probably a better way of defining all of these props?
+/*
+ * TODO: Revisit how we are allowing different types of fields.
+ *   We could have a better name for this and probably a better way of defining all of these props?
+ */
 export default {
     props: {
         value: {
@@ -12,7 +14,7 @@ export default {
         },
         icon: {
             type: String,
-            required: false,
+            required: false
         },
         fieldType: {
             type: String,
@@ -28,7 +30,7 @@ export default {
             type: Function,
             required: false,
             default: function (val, name) {
-                return []; // empty list means no validation errors, populate list with validation errors
+                return []; //empty list means no validation errors, populate list with validation errors
             }
         },
         height: {
@@ -46,7 +48,7 @@ export default {
             required: false,
             default: null
         },
-        // required because this is actually different from constant
+        //required because this is actually different from constant
         friendlyConstant: {
             type: String,
             required: false,

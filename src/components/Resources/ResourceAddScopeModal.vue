@@ -4,16 +4,19 @@
         title="Add Scope"
     >
         <app-text-field
-            name="Name"
             v-model="name"
+            name="Name"
         />
 
         <template slot="footer-buttons">
-            <button class="button" type="button" @click="create">
+            <button
+                class="button"
+                type="button"
+                @click="create"
+            >
                 Add
             </button>
         </template>
-
     </app-modal>
 </template>
 
@@ -24,7 +27,7 @@
     import TextField from "@app/components/Common/TextField.vue";
     import Modal from "@app/components/Common/Modal.vue"
 
-    import { ResourceScopeService } from "@app/services/ApplicationProxy";
+    import {ResourceScopeService} from "@app/services/ApplicationProxy";
 
     const resourceScopeService = new ResourceScopeService();
 
@@ -44,6 +47,17 @@
             return {
                 name: ""
             }
+        },
+        created() {
+            system.events.$on("resource-add-scope-modal::open", () => {
+                this.clear();
+                this.$refs.modal.open();
+            });
+
+            system.events.$on("resource-add-scope-modal::hide", () => {
+                this.close();
+            });
+
         },
         methods: {
             create() {
@@ -66,17 +80,6 @@
             clear() {
                 this.name = "";
             }
-        },
-        created() {
-            system.events.$on("resource-add-scope-modal::open", () => {
-                this.clear();
-                this.$refs.modal.open();
-            });
-
-            system.events.$on("resource-add-scope-modal::hide", () => {
-                this.close();
-            });
-
         }
 
     }

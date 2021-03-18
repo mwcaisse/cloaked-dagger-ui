@@ -1,17 +1,29 @@
 <template>
-    <div class="field is-horizontal" v-if="isHorizontal">
+    <div
+        v-if="isHorizontal"
+        class="field is-horizontal"
+    >
         <div class="field-label is-normal">
             <label class="label">{{ name }}</label>
         </div>
         <div class="field-body">
             <div class="field">
-                <app-text-input-field v-model="value" v-bind="$props" />
+                <app-text-input-field
+                    v-model="value"
+                    v-bind="$props"
+                />
             </div>
         </div>
     </div>
-    <div class="field" v-else>
+    <div
+        v-else
+        class="field"
+    >
         <label class="label">{{ name }}</label>
-        <app-text-input-field v-model="value" v-bind="$props" />
+        <app-text-input-field
+            v-model="value"
+            v-bind="$props"
+        />
     </div>
 </template>
 
@@ -24,12 +36,17 @@
 
     export default {
         name: "TextField",
-        mixins: [
-            TextInputFieldMixin
-        ],
         components: {
             "app-icon": Icon,
             "app-text-input-field": TextInputField
+        },
+        mixins: [TextInputFieldMixin],
+        props: {
+            horizontal: {
+                type: Boolean,
+                default: false,
+                required: false
+            }
         },
         computed: {
             isHorizontal() {
@@ -39,13 +56,6 @@
         watch: {
             value(newValue) {
                 this.$emit("input", newValue);
-            }
-        },
-        props: {
-            horizontal: {
-                type: Boolean,
-                default: false,
-                required: false
             }
         }
 

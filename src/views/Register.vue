@@ -54,6 +54,13 @@
                             :validator="validateNotEmpty"
                         />
 
+                        <app-text-field
+                            v-model="key"
+                            name="Registration Key"
+                            icon="key"
+                            :validator="validateNotEmpty"
+                        />
+
                         <div class="field">
                             <div class="control">
                                 <button
@@ -100,6 +107,7 @@
                 passwordConfirm: "",
                 email: "",
                 name: "",
+                key: "",
                 error: ""
             }
         },
@@ -112,6 +120,7 @@
                 errors.push(...this.validatePasswordConfirm(this.passwordConfirm));
                 errors.push(...this.validateEmail(this.email));
                 errors.push(...this.validateNotEmpty(this.name));
+                errors.push(...this.validateNotEmpty(this.key));
 
                 return errors.length === 0;
             }
@@ -130,8 +139,9 @@
                     username: this.username,
                     password: this.password,
                     email: this.email,
-                    name: this.name
-                }
+                    name: this.name,
+                    registrationKey: this.key
+                };
                 userService.register(registration).then(
                     () => {
                         this.$router.push({

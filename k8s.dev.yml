@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: cloaked-dagger-ui
-          image: registry.gitlab.com/mwcaisse/application-images/cloaked-dagger-ui:$IMAGE_TAG
+          image: registry.gitlab.com/mwcaisse/application-images/cloaked-dagger-ui:[[image_tag]]
           ports:
             - containerPort: 80
       imagePullSecrets:

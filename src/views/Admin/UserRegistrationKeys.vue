@@ -4,6 +4,7 @@
             User Registration Keys
         </h1>
 
+        <app-create-user-registration-key />
         <table class="table is-fullwidth is-hoverable">
             <thead>
                 <tr>
@@ -48,13 +49,15 @@
 
     import {UserRegistrationKeyService} from "@app/services/ApplicationProxy.js";
 
+    import CreateUserRegistrationKey from "@app/components/Admin/CreateUserRegistrationKey.vue";
     import Icon from "@app/components/Common/Icon.vue";
 
     const userRegistrationService = new UserRegistrationKeyService();
 
     export default {
         components: {
-            "app-icon": Icon
+            "app-icon": Icon,
+            "app-create-user-registration-key": CreateUserRegistrationKey
         },
         data: function() {
             return {

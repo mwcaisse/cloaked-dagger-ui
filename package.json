@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "flatpickr": "4.6.3",
     "lodash": "^4.17.15",
+    "luxon": "^2.3.0",
     "moment": "2.24.0",
     "moment-duration-format": "^2.3.2",
     "vue": "^2.6.11",

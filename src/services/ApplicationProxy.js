@@ -31,6 +31,30 @@ class UserService {
     }
 }
 
+class UserRegistrationKeyService {
+
+    constructor(baseUrl = defaultBaseUrl) {
+        this.proxy = new Proxy(baseUrl);
+    }
+
+    getAll() {
+        return this.proxy.get("user/registration-key/")
+    }
+
+    create(key) {
+        return this.proxy.post("user/registration-key", key);
+    }
+
+    activate(id) {
+        return this.proxy.post(`user/registration-key/${id}/activate`);
+    }
+
+    deactivate(id) {
+        return this.proxy.post(`user/registration-key/${id}/deactivate`);
+    }
+
+}
+
 class ResourceService {
 
     constructor(baseUrl = defaultBaseUrl) {
@@ -199,6 +223,7 @@ class ScopeService {
 
 export {
     UserService,
+    UserRegistrationKeyService,
     ResourceService,
     ResourceScopeService,
     ClientService,

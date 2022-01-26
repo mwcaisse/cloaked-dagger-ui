@@ -69,6 +69,11 @@
         name: "Edit Resource"
     });
 
+    BREADCRUMBS_MAP["admin-user-registration-keys"] = createBreadcrumb("admin-base", {
+        id: "admin-user-registration-keys",
+        name: "User Registration Keys"
+    });
+
     export default {
         computed: {
             breadcrumbs: function () {

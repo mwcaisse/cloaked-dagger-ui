@@ -29,6 +29,11 @@
                                 </router-link>
                             </li>
                             <li><a>Users</a></li>
+                            <li>
+                                <router-link :to="{ name: 'admin-user-registration-keys'}">
+                                    User Registration Keys
+                                </router-link>
+                            </li>
                         </ul>
                     </aside>
                 </div>

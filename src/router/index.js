@@ -9,6 +9,7 @@ import AdminEditClient from "@app/views/Admin/EditClient.vue"
 import AdminClients from "@app/views/Admin/Clients.vue"
 import AdminResources from "@app/views/Admin/Resources.vue"
 import AdminEditResource from "@app/views/Admin/EditResource.vue"
+import UserRegistrationKeys from "@app/views/Admin/UserRegistrationKeys.vue";
 
 import store from "@app/store"
 
@@ -114,8 +115,17 @@ const routes = [
             layout: "admin"
         },
         props: true
+    },
+    {
+        path: "/admin/user/registration-keys/",
+        name: "admin-user-registration-keys",
+        component: UserRegistrationKeys,
+        meta: {
+            requiresAuth: true,
+            layout: "admin"
+        },
+        props: true
     }
-
 ];
 
 const router = new VueRouter({

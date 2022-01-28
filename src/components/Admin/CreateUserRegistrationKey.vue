@@ -11,8 +11,8 @@
                             <input
                                 class="input"
                                 type="text"
+                                v-model="key"
                                 placeholder="Key"
-                                :value="key"
                             >
                             <span class="icon is-left">
                                 <app-icon icon="key" />
@@ -38,8 +38,8 @@
                         <input
                             class="input"
                             type="number"
+                            v-model="numberOfUses"
                             placeholder="Number of Uses"
-                            :value="numberOfUses"
                         >
                         <span class="icon is-left">
                             <app-icon icon="coins" />
@@ -92,9 +92,11 @@
                 this.numberOfUses = 1;
             },
             create() {
-                userRegistrationKeyService.create(this.toViewModel()).then(
-                    () => {
+                const vm = this.toViewModel();
+                userRegistrationKeyService.create(vm).then(
+                    res => {
                         this.clear()
+                        this.$emit("user-registration-key-created", res);
                     },
                     () => {
                         console.log("omg it didn't work");

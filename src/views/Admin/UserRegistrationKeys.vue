@@ -4,7 +4,7 @@
             User Registration Keys
         </h1>
 
-        <app-create-user-registration-key />
+        <app-create-user-registration-key @user-registration-key-created="keyAdded"/>
         <table class="table is-fullwidth is-hoverable">
             <thead>
                 <tr>
@@ -102,6 +102,9 @@
                         console.log("Error deactivating key");
                     }
                 );
+            },
+            keyAdded(key) {
+                this.registrationKeys.push(this.transformKey(key));
             }
         }
     }

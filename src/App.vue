@@ -126,7 +126,11 @@
         created: function () {
             this.$store.dispatch("fetchCurrentUser")
                 .catch(() => {
-                    this.navigateToLogin();
+                    if (this.$route.name !== "login" &&
+                        this.$route.name !== "register") {
+
+                        this.navigateToLogin();
+                    }
                 })
                 .finally(() => {
                     this.loading = false;

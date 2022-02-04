@@ -43,7 +43,24 @@
                 </div>
             </div>
         </nav>
-        <component :is="layout">
+        <div v-if="loading">
+            <section class="hero is-fullheight">
+                <div class="hero-body">
+                    <div class="container">
+                        <progress
+                            class="progress is-large is-info"
+                            max="100"
+                        >
+                            50
+                        </progress>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <component
+            :is="layout"
+            v-else
+        >
             <router-view />
         </component>
     </div>
@@ -57,23 +74,29 @@
 
     import DefaultLayout from "@app/layouts/DefaultLayout.vue"
     import AdminLayout from "@app/layouts/AdminLayout.vue"
-
-    import {UserService} from "@app/services/ApplicationProxy.js";
+    import {ADDITIONAL_ACTIONS} from "@app/services/Constants.js";
 
     export default {
         name: "Home",
         data: function() {
             return {
+                loading: true
             }
         },
         methods: {
             logout() {
                 this.$store.dispatch("logout");
+            },
+            navigateToLogin() {
+                this.$router.push({
+                    name: "login"
+                });
             }
         },
         computed: {
             ...mapGetters({
-                user: "currentUser"
+                user: "currentUser",
+                userAdditionalAction: "additionalAction"
             }),
             layout() {
                 let routeLayout = this.$route.meta.layout;
@@ -84,21 +107,44 @@
                 return DefaultLayout;
             }
         },
-        created: function () {
-            axios.interceptors.response.use(undefined, err => new Promise((resolve, reject) => {
-                if (err.response.status === 401 && err.config.url !== "/api/user/login" &&
-                    this.$route.name !== "login") {
-                    this.$store.commit("authLogout");
-                    this.$router.push({
-                        name: "login"
-                    });
-                }
-                else {
-                    reject(err);
-                }
-            }));
+        watch: {
+            userAdditionalAction (newAction, oldAction) {
 
-            this.$store.dispatch("fetchCurrentUser");
+                /*
+                 * when the email verification additional action is added, redirect over to the email verification page
+                 * unless we are already there.
+                 */
+                if (oldAction !== newAction && newAction === ADDITIONAL_ACTIONS.EMAIL_VERIFICATION) {
+                    if (this.$route.name !== "email-verification") {
+                        this.$router.push({
+                            name: "email-verification"
+                        });
+                    }
+                }
+            }
+        },
+        created: function () {
+            this.$store.dispatch("fetchCurrentUser")
+                .catch(() => {
+                    this.navigateToLogin();
+                })
+                .finally(() => {
+                    this.loading = false;
+                    axios.interceptors.response.use(undefined, err => new Promise((resolve, reject) => {
+                        if (err.response.status === 401 && err.config.url !== "/api/user/login") {
+                            this.$store.commit("authLogout");
+
+                            if (this.$route.name !== "login" &&
+                                this.$route.name !== "register") {
+                                this.navigateToLogin();
+                            }
+                        }
+                        else {
+                            reject(err);
+                        }
+                    }));
+
+                });
         }
     }
 </script>

@@ -29,6 +29,16 @@ class UserService {
     me() {
         return this.proxy.get("user/me").then(res => new User(res));
     }
+
+    resendEmailVerification() {
+        return this.proxy.post("user/resend-email-verification");
+    }
+
+    verifyEmail(verificationKey) {
+        return this.proxy.post("user/verify-email", {
+            verificationKey: verificationKey
+        });
+    }
 }
 
 class UserRegistrationKeyService {

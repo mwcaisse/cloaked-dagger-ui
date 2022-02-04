@@ -76,8 +76,6 @@
 
     import {UserService} from "@app/services/ApplicationProxy.js";
 
-    const userService = new UserService();
-
     export default {
         name: "Login",
         components: {
@@ -100,18 +98,22 @@
         methods: {
             login() {
                 this.$store.dispatch("login", {username: this.username, password: this.password}).then(
-                    () => {
-                        console.log("return URL be: " + this.returnUrl);
+                    res => {
+                        if (res.emailVerificationRequired) {
+                            this.$router.push({
+                                name: "email-verification"
+                            });
+                        }
                         //If a returnUrl was set we want to navigate there instead
-                        if (this.returnUrl) {
+                        else if (this.returnUrl) {
                             window.location = this.returnUrl;
                         }
                         else {
+                            //Otherwise, we go home
                             this.$router.push({
                                 name: "home"
                             });
                         }
-
                     },
                     error => {
                         this.error="Invalid username/password!";

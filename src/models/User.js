@@ -5,6 +5,7 @@ export default class User {
         this.username = user.username;
         this.name = user.name;
         this.roles = user.roles;
+        this.additionalActions = user.additionalActions;
     }
 
     hasRole(role) {
